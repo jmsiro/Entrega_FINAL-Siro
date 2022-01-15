@@ -25,3 +25,16 @@ def usuario(request):
 
     return HttpResponse(documento)
 
+def publicaciones(request):
+    plantilla = loader.get_template("PlayApp/T04-publicaciones.html")
+
+    documento = plantilla.render()
+
+    return HttpResponse(documento)
+
+def sobre_nosotros(request):
+    plantilla = loader.get_template("PlayApp/T05-sobre_nosotros.html")
+
+    documento = plantilla.render()
+
+    return HttpResponse(documento)
