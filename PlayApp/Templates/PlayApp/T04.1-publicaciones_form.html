@@ -3,18 +3,21 @@
 {% block ContenidoTemplate %}
 
 <body>
-    {% if formulario.errors %}
-            <p style="color: red;">Los datos son incorrectos.</p>
+    {% if formulario_p.errors %}
+        <p style="color: red;">Los datos son incorrectos.</p>
     {% endif %}
-    
+
     <form action="" method="POST">{% csrf_token %}
        <table>
-           {{ formulario.as_table}}
+            {{ formulario_p.as_table}}
        </table>
         
-       <input type="submit" value="Crear">
+       <input type="submit" value="Publicar">
+        
     </form>
+    
 </body>
 
 
 {% endblock %}
+

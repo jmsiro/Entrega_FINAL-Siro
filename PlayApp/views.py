@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from PlayApp.forms import UsuarioForm
+from PlayApp.forms import *
 from PlayApp.models import *
 # Create your views here.
 
@@ -37,6 +37,26 @@ def usuario_form(request):
 
 def publicaciones(request):
     return render(request, "PlayApp/T04-publicaciones.html")
+
+def publicaciones_form(request):
+    if request.method == "POST":
+
+        formulario_p = PublicacionesForm(request.POST)
+        print(formulario_p)
+        
+        if formulario_p.is_valid:
+            info_p = formulario_p.cleaned_data
+
+            publi = Publicacion (titulo = info_p ["titulo"], nombre = info_p ["nombre"], noticia = info_p ["noticia"], fecha = info_p ["fecha"] )
+        
+            publi.save()
+
+            return render(request, "PlayApp/T02-inicio.html")
+
+    else:
+        formulario_p = PublicacionesForm()
+        return render(request, "PlayApp/T04.1-publicaciones_form.html", {"formulario_p":formulario_p})
+
 
 def sobre_nosotros(request):
     return render(request, "PlayApp/T05-sobre_nosotros.html")

@@ -1,3 +1,4 @@
+from datetime import datetime, time
 from django import forms
 
 class UsuarioForm(forms.Form):
@@ -5,3 +6,9 @@ class UsuarioForm(forms.Form):
     email = forms.EmailField()
     clave = forms.CharField()
     tipo = forms.CharField()
+
+class PublicacionesForm(forms.Form):
+    titulo = forms.CharField()
+    nombre = forms.CharField()
+    noticia = forms.CharField(widget=forms.Textarea())
+    fecha = forms.DateField(initial=datetime.now(), show_hidden_initial=True)
