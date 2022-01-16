@@ -1,0 +1,21 @@
+{% extends "PlayApp/T01-view.html" %}
+{% load static %}
+{% block ContenidoTemplate %}
+
+<body>
+    {% if public %}
+
+    <ul>
+        {% for titulo in public %}
+            <li>{{titulo.titulo}}</li>
+            <li>{{titulo.nombre}}</li>
+            <li>{{titulo.noticia}}</li>
+            <li>{{titulo.fecha}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
+</body>
+
+
+{% endblock %}

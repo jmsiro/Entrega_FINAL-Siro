@@ -12,3 +12,4 @@ class PublicacionesForm(forms.Form):
     nombre = forms.CharField()
     noticia = forms.CharField(widget=forms.Textarea())
     fecha = forms.DateField(initial=datetime.now(), show_hidden_initial=True)
+

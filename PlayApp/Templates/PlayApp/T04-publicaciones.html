@@ -3,5 +3,12 @@
 {% block ContenidoTemplate %}
 <a href="{% url 'Publicaciones Form' %}" class="button">Hacer una publicacion</a>
 
+<form action="/PlayApp/busqueda_publicacion/" method="GET">
+    <input type="text" name="titulo" id="titulo">
+    <input type="submit" value="Buscar">
+</form>
+
+
+
 {% endblock %}
 

@@ -58,6 +58,20 @@ def publicaciones_form(request):
         return render(request, "PlayApp/T04.1-publicaciones_form.html", {"formulario_p":formulario_p})
 
 
+def publicaciones_busc(request):
+    return render(request, "PlayApp/T04.2-publicaciones_busc.html")
+
+def busqueda_publicacion(request):
+    if request.GET["titulo"]:
+        titulo = request.GET["titulo"]
+        public = Publicacion.objects.filter(titulo__icontains=titulo)
+
+        return render(request, "PlayApp/T04.2-publicaciones_busc.html" , {"public":public})
+    else:
+        public = "No enviaste datos"
+
+    return HttpResponse(public)
+
 def sobre_nosotros(request):
     return render(request, "PlayApp/T05-sobre_nosotros.html")
 

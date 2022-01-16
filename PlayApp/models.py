@@ -20,4 +20,4 @@ class Comentario(models.Model):
     nombre = models.CharField(max_length=40)
     comentario = models.TextField(max_length=300)
     fecha = models.DateTimeField(auto_now=True, auto_now_add=False, max_length=12)
-
+    
