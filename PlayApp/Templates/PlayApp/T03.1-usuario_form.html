@@ -1,0 +1,21 @@
+{% extends "PlayApp/T01-view.html" %}
+{% load static %}
+{% block ContenidoTemplate %}
+
+<body>
+    {% if form.errors %}
+        <p style="color: red;">Los datos son incorrectos.</p>
+    {% endif %}
+    
+    <form action="" method="POST">{% csrf_token %}
+       <table>
+           {{ formulario.as_table}}
+       </table>
+        
+       <input type="submit" value="Crear">
+
+    </form>
+</body>
+
+
+{% endblock %}

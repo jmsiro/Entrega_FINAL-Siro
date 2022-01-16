@@ -7,3 +7,4 @@ admin.site.register(Usuario)
 admin.site.register(Publicacion)
 
 admin.site.register(Comentario)
+
