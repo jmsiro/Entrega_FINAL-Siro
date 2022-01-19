@@ -81,23 +81,23 @@ def sobre_nosotros(request):
 
 
 def comentarios(request):
-
     if request.method == "POST":
 
-        formulario_c = PublicacionesForm(request.POST)
+        formulario_c = ComentariosForm(request.POST)
         print(formulario_c)
-        
+
         if formulario_c.is_valid:
             info_c = formulario_c.cleaned_data
 
-            coment = Comentario (usuario = info_c ["nombre"], comentario = info_c ["comentario"], fecha = info_c ["fecha"], id_publi = info_c ["publicacion"] )
-        
+            coment = Comentario (nombre = info_c ["nombre"], comentario = info_c ["comentario"], fecha = info_c ["fecha"], publicacion = info_c ["publicacion"] )
+
             coment.save()
 
             return render(request, "PlayApp/T02-inicio.html")
 
     else:
         formulario_c = ComentariosForm()
+
         return render(request, "PlayApp/T06-comentarios.html", {"formulario_c":formulario_c})
    
 
