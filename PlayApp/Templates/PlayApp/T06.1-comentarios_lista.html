@@ -1,0 +1,27 @@
+{% extends "PlayApp/T01-view.html" %}
+{% load static %}
+{% block ContenidoTemplate %}
+<body>
+
+    <h2>Comentarios</h2>
+    <ul>
+        {% for comentario in object_list %} #En este caso el contecto es un listado object_list
+
+            <li>
+                <p>COMENTARIO: {{ comentario.comentario }} </p>
+                <p> 
+                    <a href="{% url 'Detalle Comentarios' comentario.id %}">Ver</a> | 
+                    <a href="{% url 'Update Comentarios' comentario.id %}">Editar</a> | 
+                    <a href="{% url 'Delete Comentarios' comentario.id %}">Borrar</a> 
+
+                </p> 
+            </li>
+
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'Crear Comentarios'  %}">Nuevo Comentario</a>  
+
+
+</body>
+{% endblock %}

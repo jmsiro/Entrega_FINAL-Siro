@@ -1,0 +1,12 @@
+{% extends "PlayApp/T01-view.html" %}
+{% load static %}
+{% block ContenidoTemplate %}
+
+<body>
+    <form method="post">{% csrf_token %}
+        ¿Estás seguro que deseas borrar el comentario "{{ object }}"?
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+
+{% endblock %}

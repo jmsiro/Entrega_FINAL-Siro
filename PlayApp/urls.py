@@ -11,5 +11,11 @@ urlpatterns = [
     path("busqueda_publicacion/", views.busqueda_publicacion, name = "Busqueda Publicacion"),
     path("publicaciones_busc/", views.publicaciones_busc, name = "Publicaciones Busc"),
     path("about/", views.sobre_nosotros, name = "Sobre Nosotros"),
-    
+    path("comentarios/", views.comentarios, name = "Comentarios"),
+    path("comentarios_lista/", views.Listar_Comentario.as_view(), name = "Lista Comentarios" ),
+    path("comentarios_form/", views.Crear_Comentario.as_view(), name = "Crear Comentarios" ),
+    path("comentarios_detalle/<pk>/", views.Detalle_Comentario.as_view(), name = "Detalle Comentarios" ),
+    path("comentarios_confirm/", views.borrar_comentario, name = "Confirmar Borrar Comentarios" ),
+    path("comentarios_delete/<pk>/", views.Delete_Comentario.as_view(), name = "Delete Comentarios" ),
+    path("comentarios_update/<pk>/", views.Update_Comentario.as_view(), name = "Update Comentarios" ),
 ]

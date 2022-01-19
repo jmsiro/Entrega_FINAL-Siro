@@ -1,0 +1,17 @@
+{% extends "PlayApp/T01-view.html" %}
+{% load static %}
+{% block ContenidoTemplate %}
+<body>
+
+
+
+    <p>Nombre del Usuario: <i>{{ cometario.nombre }}</i></p>
+    <p>Comentario: <i>{{ comentario.comentario }}</i></p>
+    <p>Fecha de Publicacion: <i>{{ comentario.fecha }}</i></p>
+    <p>
+        <a href="{% url 'Lista Comentarios' %}">Volver</a>
+    </p>
+
+
+</body>
+{% endblock %}
