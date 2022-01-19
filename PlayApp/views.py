@@ -103,8 +103,8 @@ def comentarios(request):
 
 class Crear_Comentario(CreateView):
     model = Comentario
-    succes_url = "/PlayApp/comentarios_lista/"
-    template_name = "PlayApp/T06-comentarios.html"
+    success_url = "/PlayApp/comentarios_lista/"
+    template_name = "PlayApp/T06.2-comentarios_form.html"
     fields = ["nombre", "comentario"]
 
 class Detalle_Comentario(DetailView):
@@ -117,16 +117,13 @@ class Listar_Comentario(ListView):
     
 class Delete_Comentario(DeleteView):
     model = Comentario
-    succes_url = "/PlayApp/comentarios_lista/"
+    success_url = "/PlayApp/comentarios_lista/"
     template_name = "PlayApp/T06.4-comentarios_confirm_delete.html"
     
 class Update_Comentario(UpdateView):
     model = Comentario
-    succes_url = "/PlayApp/comentarios_lista/"
-    fields = ["nombre", "comentario"]
+    success_url = "/PlayApp/comentarios_lista/"
     template_name = "PlayApp/T06.2-comentarios_form.html"
-
-def borrar_comentario(request):
-    return render(request, "PlayApp/T06.4-comentarios_confirm_delete.html")
+    fields = ["nombre", "comentario"]
 
 

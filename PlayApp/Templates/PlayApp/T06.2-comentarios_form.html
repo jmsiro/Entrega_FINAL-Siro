@@ -5,11 +5,11 @@
 
 
     <form method="post">{% csrf_token %}
-        <table>
-            {{ formulario_c.as_table}}
-       </table>
+        
+        {{ form.as_p}}
+        
        
-        <input type="submit" value="Actualizar Comentario" />
+        <input type="submit" value="Enviar" />
     </form>
 
 
