@@ -69,19 +69,16 @@ def login_usuario(request):
 
 
 def register_usuario(request):
-    
     if request.method == 'POST':
-
-        form = UserCreationForm(request.POST)
+        form = UsuarioForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data["username"]
-
+            usuario = form.cleaned_data["username"]
             form.save()
-            return render(request,"PlayApp/T02-inicio.html", {"mensaje":"Usuario creado exitosamente."})
-        else:
-            return render(request, "PlayApp/T02-inicio.html", {"mensaje":"Error de registro, intente nuevamente."})
+            return render(request,"PlayApp/T02-inicio.html", {"mensaje":f"Usuario {usuario} creado exitosamente."})
+        # else:
+        #     return render(request, "PlayApp/T02-inicio.html", {"mensaje":"Error de registro, intente nuevamente."})
     else:
-        form = UserCreationForm()
+        form = UsuarioForm()
         return render(request,"PlayApp/T03.1-usuario_form.html", {"form":form})
 
 
