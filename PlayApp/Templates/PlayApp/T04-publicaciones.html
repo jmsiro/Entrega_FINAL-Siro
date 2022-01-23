@@ -1,6 +1,14 @@
 {% extends "PlayApp/T01-view.html" %}
 {% load static %}
 {% block ContenidoTemplate %}
+
+<h1 style="color:darkorange">ÚLTIMOS TITULARES</h1>
+{% for object in publis %}
+    <ul>
+        <h2><a href="{% url 'Detalle Publicaciones' object.id %}">{{object.titulo}}</a></h2>
+        <h4>{{object.nombre}}</h4>
+    </ul>
+{% endfor %}
 <a href="{% url 'Publicaciones Form' %}" class="button">Hacer una publicacion</a>
 
 <form action="/PlayApp/busqueda_publicacion/" method="GET">

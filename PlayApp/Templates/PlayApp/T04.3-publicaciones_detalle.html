@@ -1,0 +1,18 @@
+{% extends "PlayApp/T01-view.html" %}
+{% load static %}
+{% block ContenidoTemplate %}
+<body>
+
+
+
+    <p>Título: <i>{{ publicacion.titulo }}</i></p>
+    <p>Autor: <i>{{ publicacion.nombre }}</i></p>
+    <p>Noticia: <i>{{ publicacion.noticia }}</i></p>
+    <p>Fecha de publicación: <i>{{ publicacion.fecha }}</i></p>
+    <p>
+        <a href="{% url 'Publicaciones' %}">Volver</a>
+    </p>
+
+
+</body>
+{% endblock %}

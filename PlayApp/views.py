@@ -19,8 +19,9 @@ def primer_view(request):
     return render(request, "PlayApp/T01-view.html")
 
 def inicio(request):
+    publis = Publicacion.objects.all().order_by('-fecha') [0:3]           
+    return render(request, "PlayApp/T02-inicio.html", {"publis": publis})
     
-    return render(request, "PlayApp/T02-inicio.html")
 
 def usuario(request):
     return render(request, "PlayApp/T03-usuario.html")
@@ -87,8 +88,9 @@ def register_usuario(request):
 
 
 
-def publicaciones(request):            
-    return render(request, "PlayApp/T04-publicaciones.html")
+def publicaciones(request):
+    publis = Publicacion.objects.all().order_by('-fecha') [0:3]           
+    return render(request, "PlayApp/T04-publicaciones.html", {"publis": publis})
 
 
 @login_required
@@ -111,10 +113,11 @@ def publicaciones_form(request):
         formulario_p = PublicacionesForm()
         return render(request, "PlayApp/T04.1-publicaciones_form.html", {"formulario_p":formulario_p})
 
-
+@login_required
 def publicaciones_busc(request):
     return render(request, "PlayApp/T04.2-publicaciones_busc.html")
 
+@login_required
 def busqueda_publicacion(request):
     if request.GET["titulo"]:
         titulo = request.GET["titulo"]
@@ -149,7 +152,14 @@ def comentarios(request):
         formulario_c = ComentariosForm()
 
         return render(request, "PlayApp/T06-comentarios.html", {"formulario_c":formulario_c})
-   
+
+class Detalle_Publicacion(DetailView):
+    model = Publicacion
+    template_name = "PlayApp/T04.3-publicaciones_detalle.html"
+
+
+
+
 
 class Crear_Comentario(LoginRequiredMixin, CreateView):
     login_url = "/PlayApp/usuario/"

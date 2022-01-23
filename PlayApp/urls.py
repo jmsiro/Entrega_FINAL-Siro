@@ -9,13 +9,14 @@ urlpatterns = [
     path("usuario/", views.login_usuario, name = "Usuario"),
     path("usuario_form/", views.register_usuario, name = "Usuario Form"),
     path("logout/", LogoutView.as_view(template_name="PlayApp/T03.2-usuario_logout.html"), name = "Usuario Logout"),
-    
+
 
     path("publicaciones/", views.publicaciones, name = "Publicaciones"),
     path("publicaciones_form/", views.publicaciones_form, name = "Publicaciones Form"),
     path("busqueda_publicacion/", views.busqueda_publicacion, name = "Busqueda Publicacion"),
     path("publicaciones_busc/", views.publicaciones_busc, name = "Publicaciones Busc"),
-    
+    path("publicaciones_detalle/<pk>/", views.Detalle_Publicacion.as_view(), name = "Detalle Publicaciones"),
+
     path("about/", views.sobre_nosotros, name = "Sobre Nosotros"),
     
     path("comentarios/", views.comentarios, name = "Comentarios"),
