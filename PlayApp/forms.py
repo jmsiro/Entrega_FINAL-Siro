@@ -18,3 +18,4 @@ class ComentariosForm(forms.Form):
     comentario = forms.CharField(widget=forms.Textarea())
     fecha = forms.DateField(initial=datetime.now(), show_hidden_initial=True)
     # publicacion = forms.IntegerField()
+

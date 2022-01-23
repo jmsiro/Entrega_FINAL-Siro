@@ -2,4 +2,20 @@
 {% load static %}
 {% block ContenidoTemplate %}
 
+<body>
+    
+    
+    <form method="post">{% csrf_token %}
+        
+        {{ form.as_p}}
+        
+       
+        <input type="submit" value="Iniciar sesión">
+    </form>
+
+
+
+</body>
+
 {% endblock %}
+

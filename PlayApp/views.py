@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
@@ -6,6 +7,8 @@ from PlayApp.models import *
 from django.views.generic import ListView 
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, logout, authenticate
 # from django.urls import reverse_lazy
 # Create your views here.
 
@@ -39,7 +42,32 @@ def usuario_form(request):
         return render(request, "PlayApp/T03.1-usuario_form.html", {"formulario":formulario})
 
 
-def publicaciones(request):
+def login_usuario(request):
+
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        
+        if form.is_valid():
+            data = form.cleaned_data
+            
+            # usuario = form.cleaned_data.get('username')
+            # contra = form.cleaned_data.get('password')
+
+            user = authenticate(username=data["username"], password=data["password"])
+
+            if user is not None:
+                login(request, user)
+                return render(request, "PlayApp/T02-inicio.html", {"mensaje":f"Hola {user.get_username()}"})
+            else:
+                return render(request, "PlayApp/T02-inicio.html", {"mensaje":"el usuario y/o la contraseña son incorrectos"})
+        else:
+            return render(request, "PlayApp/T02-inicio.html", {"mensaje":"Error"})
+    else:
+        form = AuthenticationForm()
+        return render(request, "PlayApp/T03-usuario.html", {"form": form})
+
+
+def publicaciones(request):            
     return render(request, "PlayApp/T04-publicaciones.html")
 
 def publicaciones_form(request):
