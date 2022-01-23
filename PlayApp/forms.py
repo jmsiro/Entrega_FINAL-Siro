@@ -1,11 +1,20 @@
 from datetime import datetime, time
+import re
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 
-class UsuarioForm(forms.Form):
-    nombre = forms.CharField()
-    email = forms.EmailField()
-    clave = forms.CharField()
-    tipo = forms.CharField()
+
+
+
+# class UsuarioForm(UserCreationForm):
+#     email = forms.EmailField()
+#     tipo = forms.CharField()
+#     password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
+#     password2 = forms.CharField(label="Repetir contraseña", widget=forms.PasswordInput)
+
+    # class Meta:
+    #     model = Usuario
+    #     fields = ["nombre", "email", "password1", "password2", "tipo"]
 
 class PublicacionesForm(forms.Form):
     titulo = forms.CharField()

@@ -3,14 +3,12 @@
 {% block ContenidoTemplate %}
 
 <body>
-    {% if formulario.errors %}
-            <p style="color: red;">Los datos son incorrectos.</p>
-    {% endif %}
+    
     
     <form action="" method="POST">{% csrf_token %}
-       <table>
-           {{formulario.as_table}}
-       </table>
+       
+           {{form.as_p}}
+       
         
        <input type="submit" value="Crear">
     </form>

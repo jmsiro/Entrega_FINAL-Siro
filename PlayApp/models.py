@@ -1,16 +1,20 @@
 from email.policy import default
 from unittest.util import _MAX_LENGTH
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
-class Usuario(models.Model):
-    nombre = models.CharField(max_length=40)
-    email = models.EmailField(max_length=254)
-    clave = models.CharField(max_length=12)
-    tipo = models.CharField(max_length=6, default="") 
+# class Usuario(models.Model):
+#     nombre = models.CharField(max_length=40)
+#     email = models.EmailField(max_length=254)
+#     password1 = models.CharField(max_length=12)
+#     password2 = models.CharField(max_length=12)
+#     tipo = models.CharField(max_length=6, default="") 
+#     USERNAME_FIELD = "nombre"
+    
 
-    def __str__(self):
-        return f" {self.nombre} - {self.email} - {self.tipo}"
+#     def __str__(self):
+#         return f" {self.nombre} - {self.email} - {self.tipo}"
     # ver posibilidad de usar lista para elgir tipo
 
 class Publicacion(models.Model):

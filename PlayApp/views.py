@@ -22,24 +22,24 @@ def inicio(request):
 def usuario(request):
     return render(request, "PlayApp/T03-usuario.html")
 
-def usuario_form(request):
-    if request.method == "POST":
+# def usuario_form(request):
+#     if request.method == "POST":
 
-        formulario = UsuarioForm(request.POST)
-        print(formulario)
+#         formulario = UsuarioForm(request.POST)
+#         print(formulario)
         
-        if formulario.is_valid:
-            info = formulario.cleaned_data
+#         if formulario.is_valid:
+#             info = formulario.cleaned_data
 
-            user = Usuario (nombre = info ["nombre"], email = info ["email"], clave = info ["clave"], tipo = info ["tipo"] )
+#             user = Usuario (nombre = info ["nombre"], email = info ["email"], clave = info ["clave"], tipo = info ["tipo"] )
         
-            user.save()
+#             user.save()
 
-            return render(request, "PlayApp/T02-inicio.html")
+#             return render(request, "PlayApp/T02-inicio.html")
 
-    else:
-        formulario = UsuarioForm()
-        return render(request, "PlayApp/T03.1-usuario_form.html", {"formulario":formulario})
+#     else:
+#         formulario = UsuarioForm()
+#         return render(request, "PlayApp/T03.1-usuario_form.html", {"formulario":formulario})
 
 
 def login_usuario(request):
@@ -61,10 +61,30 @@ def login_usuario(request):
             else:
                 return render(request, "PlayApp/T02-inicio.html", {"mensaje":"el usuario y/o la contraseña son incorrectos"})
         else:
-            return render(request, "PlayApp/T02-inicio.html", {"mensaje":"Error"})
+            return render(request, "PlayApp/T02-inicio.html", {"mensaje":"Error de autenticación, intente nuevamente."})
     else:
         form = AuthenticationForm()
         return render(request, "PlayApp/T03-usuario.html", {"form": form})
+
+
+
+def register_usuario(request):
+    
+    if request.method == 'POST':
+
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+
+            form.save()
+            return render(request,"PlayApp/T02-inicio.html", {"mensaje":"Usuario creado exitosamente."})
+        else:
+            return render(request, "PlayApp/T02-inicio.html", {"mensaje":"Error de registro, intente nuevamente."})
+    else:
+        form = UserCreationForm()
+        return render(request,"PlayApp/T03.1-usuario_form.html", {"form":form})
+
+
 
 
 def publicaciones(request):            
