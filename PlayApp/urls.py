@@ -1,5 +1,6 @@
 from django.urls import path
 from PlayApp import views
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path("", views.inicio, name = "Inicio"),
@@ -7,6 +8,7 @@ urlpatterns = [
     
     path("usuario/", views.login_usuario, name = "Usuario"),
     path("usuario_form/", views.register_usuario, name = "Usuario Form"),
+    path("logout/", LogoutView.as_view(template_name="PlayApp/T03.2-usuario_logout.html"), name = "Usuario Logout"),
     
 
     path("publicaciones/", views.publicaciones, name = "Publicaciones"),

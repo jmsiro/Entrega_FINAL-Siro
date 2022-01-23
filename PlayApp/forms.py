@@ -1,9 +1,8 @@
 from datetime import datetime, time
-import re
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from PlayApp.models import Usuario
+
 
 
 
