@@ -9,6 +9,9 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+
 # from django.urls import reverse_lazy
 # Create your views here.
 
@@ -87,6 +90,8 @@ def register_usuario(request):
 def publicaciones(request):            
     return render(request, "PlayApp/T04-publicaciones.html")
 
+
+@login_required
 def publicaciones_form(request):
     if request.method == "POST":
 
@@ -146,7 +151,8 @@ def comentarios(request):
         return render(request, "PlayApp/T06-comentarios.html", {"formulario_c":formulario_c})
    
 
-class Crear_Comentario(CreateView):
+class Crear_Comentario(LoginRequiredMixin, CreateView):
+    login_url = "/PlayApp/usuario/"
     model = Comentario
     success_url = "/PlayApp/comentarios_lista/"
     template_name = "PlayApp/T06.2-comentarios_form.html"
