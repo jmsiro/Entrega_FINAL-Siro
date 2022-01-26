@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 
 
+
 class UsuarioForm(UserCreationForm):
     first_name = forms.CharField(max_length=40, label="Nombre")
     last_name = forms.CharField(max_length=40, label="Apellido")
@@ -20,9 +21,11 @@ class UsuarioForm(UserCreationForm):
 
 class PublicacionesForm(forms.Form):
     titulo = forms.CharField()
-    nombre = forms.CharField()
-    noticia = forms.CharField(widget=forms.Textarea())
-    fecha = forms.DateField(initial=datetime.now(), show_hidden_initial=True)
+    autor = forms.CharField(widget=forms.HiddenInput())
+    subtitulo = forms.CharField(widget=forms.Textarea(attrs={"rows":2, "cols":20}))
+    noticia = forms.CharField(widget=forms.Textarea(attrs={"rows":10, "cols":40}))
+    fecha = forms.DateField(initial=datetime.now(), show_hidden_initial=True, widget=forms.HiddenInput())
+    id_autor = forms.CharField(widget=forms.HiddenInput())
 
 class ComentariosForm(forms.Form):
     nombre = forms.CharField()

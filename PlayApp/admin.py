@@ -8,3 +8,4 @@ admin.site.register(Publicacion)
 
 admin.site.register(Comentario)
 
+admin.site.register(Usuario)

@@ -11,7 +11,8 @@
                         {% for object in publis %}
                             <div class="post-preview">  
                                 <h1 class="post-title"><a href="{% url 'Detalle Publicaciones' object.id %}">{{object.titulo}}</a></h1>
-                                <h4 class="post-subtitle">{{object.nombre}}</h4>
+                                <h4 class="autor">{{object.autor}}</h4>
+                                <p class="post-subtitle">{{object.subtitulo}}</p>
                             </div>
                         {% endfor %}
                 </div>            

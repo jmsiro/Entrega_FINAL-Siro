@@ -103,9 +103,12 @@ def publicaciones_form(request):
         if formulario_p.is_valid:
             info_p = formulario_p.cleaned_data
 
-            publi = Publicacion (titulo = info_p ["titulo"], nombre = info_p ["nombre"], noticia = info_p ["noticia"], fecha = info_p ["fecha"] )
+            publi = Publicacion (titulo = info_p ["titulo"], subtitulo = info_p ["subtitulo"], noticia = info_p ["noticia"], fecha = info_p ["fecha"] )
         
-            publi.save()
+            instancia = publi.save(commit=False)
+            instancia.autor = request.Usuario
+            instancia.save()
+           
 
             return render(request, "PlayApp/T02-inicio.html")
 

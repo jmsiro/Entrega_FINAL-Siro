@@ -69,6 +69,8 @@ TEMPLATES = [
     },
 ]
 
+AUTH_USER_MODEL = 'PlayApp.Usuario'
+
 WSGI_APPLICATION = 'Playground.wsgi.application'
 
 
