@@ -7,7 +7,7 @@ urlpatterns = [
     # path("view/", views.primer_view),
     
     path("usuario/", views.login_usuario, name = "Usuario"),
-    path("usuario_form/", views.register_usuario, name = "Usuario Form"),
+    path("usuario_form/", views.usuario_form, name = "Usuario Form"),
     path("logout/", LogoutView.as_view(template_name="PlayApp/T03.2-usuario_logout.html"), name = "Usuario Logout"),
 
 

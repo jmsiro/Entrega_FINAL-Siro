@@ -1,23 +1,23 @@
 from datetime import datetime, time
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from PlayApp.models import Usuario
 
 
 
 
 
 class UsuarioForm(UserCreationForm):
-    first_name = forms.CharField(max_length=40, label="Nombre")
-    last_name = forms.CharField(max_length=40, label="Apellido")
-    email = forms.EmailField()
-    tipo = forms.CharField()
-    password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
-    password2 = forms.CharField(label="Repetir contraseña", widget=forms.PasswordInput)
+    # nombre = forms.CharField(max_length=40, label="Nombre")
+    # apellido = forms.CharField(max_length=40, label="Apellido")
+    email = forms.EmailField(max_length=50, help_text="Agregar una dirección de Email válida")
+    # tipo = forms.CharField()
+    # password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
+    # password2 = forms.CharField(label="Repetir contraseña", widget=forms.PasswordInput)
 
     class Meta:
-        model = User
-        fields = ["username", "first_name", "last_name", "email", "password1", "password2", "tipo"]
+        model = Usuario
+        fields = ["username", "nombre", "apellido", "email", "tipo", "password1", "password2"]
 
 class PublicacionesForm(forms.Form):
     titulo = forms.CharField()

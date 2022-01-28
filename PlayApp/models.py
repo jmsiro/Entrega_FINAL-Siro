@@ -8,8 +8,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
 class Manager_Usuario(BaseUserManager):
-    def create_user(self, nombre_de_usuario, nombre, apellido, email, tipo, password=None):
-        if not nombre_de_usuario:
+    def create_user(self, username, nombre, apellido, email, tipo, password=None):
+        if not username:
             raise ValueError("Debes tener un nombre de usuario")
         if not nombre:
             raise ValueError("Debes tener un nombre")
@@ -20,7 +20,9 @@ class Manager_Usuario(BaseUserManager):
         if not tipo:
             raise ValueError("Debes tener un tipo de usuario")
         usuario = self.model(
-            nombre_de_usuario=nombre_de_usuario,
+            username
+    =username
+    ,
             nombre=nombre,
             apellido=apellido,
             email=self.normalize_email(email),
@@ -31,9 +33,11 @@ class Manager_Usuario(BaseUserManager):
         usuario.save(using=self._db)
         return usuario
     
-    def create_superuser(self,nombre_de_usuario, nombre, apellido, email, tipo, password):
+    def create_superuser(self,username, nombre, apellido, email, tipo, password):
         usuario = self.create_user(
-            nombre_de_usuario=nombre_de_usuario,
+            username
+    =username
+    ,
             nombre=nombre,
             apellido=apellido,
             email=self.normalize_email(email),
@@ -48,7 +52,7 @@ class Manager_Usuario(BaseUserManager):
 
 
 class Usuario(AbstractBaseUser):
-    nombre_de_usuario = models.CharField(max_length=40, unique=True)
+    username = models.CharField(max_length=40, unique=True)
     nombre = models.CharField(max_length=40)
     apellido = models.CharField(max_length=40)
     email = models.EmailField(max_length=254, verbose_name="email", unique=True)
@@ -61,7 +65,7 @@ class Usuario(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    USERNAME_FIELD = "nombre_de_usuario" #Buscar si se puede poner que sea nombre de usuario o email, que de la opcion de loguear ocn cualquiera de los dos.
+    USERNAME_FIELD = "username" #Buscar si se puede poner que sea nombre de usuario o email, que de la opcion de loguear ocn cualquiera de los dos.
     REQUIRED_FIELDS = ["nombre", "apellido", "email", "tipo"]
     objects = Manager_Usuario()
     
