@@ -1,3 +1,4 @@
+import email
 import re
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -12,7 +13,6 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
-# from django.urls import reverse_lazy
 # Create your views here.
 
 def primer_view(request):
@@ -55,29 +55,69 @@ def usuario_form(request):
 def login_usuario(request):
 
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        formulario = AuthenticationForm(request, data=request.POST)
         
-        if form.is_valid():
-            data = form.cleaned_data
+        if formulario.is_valid():
+            data = formulario.cleaned_data
             
             # usuario = form.cleaned_data.get('username')
             # contra = form.cleaned_data.get('password')
 
-            user = authenticate(username=data["username"], password=data["password"])
+            usuario = authenticate(username=data["username"], password=data["password"])
 
-            if user is not None:
-                login(request, user)
-                return render(request, "PlayApp/T02-inicio.html", {"mensaje":f"Hola {user.get_username()}"})
+            if usuario is not None:
+                login(request, usuario)
+                return render(request, "PlayApp/T02-inicio.html", {"mensaje":f"Hola {usuario.get_username()}"})
             else:
                 return render(request, "PlayApp/T02-inicio.html", {"mensaje":"el usuario y/o la contraseña son incorrectos"})
         else:
             return render(request, "PlayApp/T02-inicio.html", {"mensaje":"Error de autenticación, intente nuevamente."})
     else:
-        form = AuthenticationForm()
-        return render(request, "PlayApp/T03-usuario.html", {"form": form})
+        formulario = AuthenticationForm()
+        return render(request, "PlayApp/T03-usuario.html", {"formulario": formulario})
+
+@login_required
+def logout_usuario(request):
+    logout(request)
+    return render(request,"PlayApp/T02-inicio.html", {"mensaje":f"Adios, cerraste sesión exitosamente!"})
+
+@login_required
+def update_usuario(request):
+    contexto = {}
+
+    if request.POST:
+        formulario = UsuarioUpdateForm(request.POST, instance=request.user)  
+        if formulario.is_valid():
+            formulario.save()
+            usuario = request.user
+            return render(request, "PlayApp/T02-inicio.html", {"mensaje":f"Modificaste exitosamente tu usuario: {usuario.get_username()}"})
+    else:
+        formulario = UsuarioUpdateForm(
+            initial= {
+                "username": request.user.username,
+                "nombre": request.user.nombre,
+                "apellido": request.user.apellido,
+                "email": request.user.email,
+                "tipo": request.user.tipo
+                
+            }
+        )  
+    contexto ["usuario_detalle"] = formulario
+    return render(request, "PlayApp/T03.2-usuario_detalle.html", contexto)
 
 
 
+# @login_required
+# class Update_Usuario(UpdateView):
+#     model = Usuario
+#     success_url = "/PlayApp/usuario_detalle/"
+#     template_name = "PlayApp/T03.1-usuario_form.html"
+#     fields = "__all__"
+
+# @login_required
+# class Detalle_Usuario(DetailView):
+#     model = Usuario
+#     template_name = "PlayApp/T03.2-usuario_detalle.html"
 # def register_usuario(request):
 #     if request.method == 'POST':
 #         form = UsuarioForm(request.POST)
@@ -106,13 +146,14 @@ def publicaciones_form(request):
         formulario_p = PublicacionesForm(request.POST)
         print(formulario_p)
         
-        if formulario_p.is_valid:
+        if formulario_p.is_valid():
             info_p = formulario_p.cleaned_data
 
-            publi = Publicacion (titulo = info_p ["titulo"], subtitulo = info_p ["subtitulo"], noticia = info_p ["noticia"], fecha = info_p ["fecha"] )
-        
-            instancia = publi.save(commit=False)
-            instancia.autor = request.Usuario
+            publi = Publicacion (titulo = info_p ["titulo"], subtitulo = info_p ["subtitulo"], noticia = info_p ["noticia"], fecha = info_p ["fecha"])
+
+            instancia = publi.save()
+            instancia.autor = request.username
+            instancia.id_autor = request.username
             instancia.save()
            
 

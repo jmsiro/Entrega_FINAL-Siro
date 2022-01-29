@@ -2,14 +2,17 @@ from django.urls import path
 from PlayApp import views
 from django.contrib.auth.views import LogoutView
 
+
+
 urlpatterns = [
     path("", views.inicio, name = "Inicio"),
     # path("view/", views.primer_view),
     
     path("usuario/", views.login_usuario, name = "Usuario"),
     path("usuario_form/", views.usuario_form, name = "Usuario Form"),
-    path("logout/", LogoutView.as_view(template_name="PlayApp/T03.2-usuario_logout.html"), name = "Usuario Logout"),
-
+    path("logout/", views.logout_usuario, name = "Usuario Logout"),
+    # path("usuario_detalle/", views.detalle_usuario, name = "Detalle Usuario" ),
+    path("usuario_update/", views.update_usuario, name = "Usuario Update" ),
 
     path("publicaciones/", views.publicaciones, name = "Publicaciones"),
     path("publicaciones_form/", views.publicaciones_form, name = "Publicaciones Form"),

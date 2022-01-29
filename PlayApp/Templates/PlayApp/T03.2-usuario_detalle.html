@@ -9,7 +9,7 @@
        
            
        
-        {% for campo in usuario_formulario %}
+        {% for campo in  usuario_detalle%}
             <p>
                 {{campo.label_tag}}
                 <br>{{campo}}
@@ -24,7 +24,7 @@
                 {% endfor %}
             </p>
         {% endfor %}    
-       <input type="submit" value="Crear">
+       <input type="submit" value="Guardar Cambios">
     </form>
 </body>
 

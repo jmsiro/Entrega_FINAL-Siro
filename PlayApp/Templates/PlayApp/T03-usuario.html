@@ -2,17 +2,22 @@
 {% load static %}
 {% block ContenidoTemplate %}
 
-<body>
+<body style="text-align:center">
     
     
     <form method="post">{% csrf_token %}
         
-        {{ form.as_p}}
+        {{ formulario.as_p}}
         
        
         <input type="submit" value="Iniciar sesión">
+    
     </form>
-
+    <br>
+    <p style="color:firebrick">Si no tenes un usuario create uno!</p>
+    <button type="button">
+        <a href="{% url 'Usuario Form' %}">Crear Usuario</a>
+    </button>
 
 
 </body>
