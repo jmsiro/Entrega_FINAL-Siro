@@ -2,7 +2,7 @@ from datetime import datetime, time
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from PlayApp.models import Usuario
-
+from PlayApp.models import Publicacion
 
 
 
@@ -36,17 +36,37 @@ class UsuarioUpdateForm(forms.ModelForm):
     
 
 
-class PublicacionesForm(forms.Form):
-    titulo = forms.CharField()
-    autor = forms.CharField(widget=forms.HiddenInput())
-    subtitulo = forms.CharField(widget=forms.Textarea(attrs={"rows":2, "cols":20}))
-    noticia = forms.CharField(widget=forms.Textarea(attrs={"rows":10, "cols":40}))
+class PublicacionesForm(forms.ModelForm):
     fecha = forms.DateField(initial=datetime.now(), show_hidden_initial=True)
-    id_autor = forms.CharField(widget=forms.HiddenInput())
+    
+    
+    class Meta:
+        model = Publicacion
+        fields = ("titulo","subtitulo", "noticia", "imagen")
+
+class UpdatePublicacionForm(forms.ModelForm):
+
+    class Meta:
+        model = Publicacion
+        fields = ("titulo","subtitulo", "noticia", "imagen")
+
+    def guardar(self, commit=True):
+        publicacion = self.instance
+        publicacion.titulo = self.cleaned_data['titulo']
+        publicacion.subtitulo = self.cleaned_data['subtitulo']
+        publicacion.noticia = self.cleaned_data['noticia']
+
+        if self.cleaned_data['imagen']:
+            publicacion.imagen = self.cleaned_data['imagen']
+        if commit:
+            publicacion.save()
+        return publicacion
+
+
 
 class ComentariosForm(forms.Form):
     nombre = forms.CharField()
     comentario = forms.CharField(widget=forms.Textarea())
     fecha = forms.DateField(initial=datetime.now(), show_hidden_initial=True)
-    # publicacion = forms.IntegerField()
+   
 

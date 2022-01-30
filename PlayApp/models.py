@@ -1,10 +1,12 @@
-from ast import AugStore
-from email.policy import default
-from pyexpat import model
-from unittest.util import _MAX_LENGTH
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.conf import settings
+
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+
+from django.db.models.signals import pre_save, post_delete
+from django.utils.text import slugify
+from django.dispatch import receiver
+
 
 # Create your models here.
 class Manager_Usuario(BaseUserManager):
@@ -20,9 +22,7 @@ class Manager_Usuario(BaseUserManager):
         if not tipo:
             raise ValueError("Debes tener un tipo de usuario")
         usuario = self.model(
-            username
-    =username
-    ,
+            username=username,
             nombre=nombre,
             apellido=apellido,
             email=self.normalize_email(email),
@@ -35,9 +35,7 @@ class Manager_Usuario(BaseUserManager):
     
     def create_superuser(self,username, nombre, apellido, email, tipo, password):
         usuario = self.create_user(
-            username
-    =username
-    ,
+            username=username,
             nombre=nombre,
             apellido=apellido,
             email=self.normalize_email(email),
@@ -52,13 +50,19 @@ class Manager_Usuario(BaseUserManager):
 
 
 class Usuario(AbstractBaseUser):
+
+    TIPO_USUARIO = [
+        ("ADMIN","Admin"),
+        ("LECTOR","Lector"),
+        ("AUTOR","Autor"),
+    ]
     username = models.CharField(max_length=40, unique=True)
     nombre = models.CharField(max_length=40)
     apellido = models.CharField(max_length=40)
     email = models.EmailField(max_length=254, verbose_name="email", unique=True)
     # password1 = models.CharField(max_length=12)
     # password2 = models.CharField(max_length=12)
-    tipo = models.CharField(max_length=6, default="")
+    tipo = models.CharField(max_length=6, choices=TIPO_USUARIO, default="")
     date_joined = models.DateTimeField(verbose_name="Fecha de Registro", auto_now_add=True)
     last_login = models.DateTimeField(verbose_name="Ultima Conexión", auto_now=True) 
     is_admin = models.BooleanField(default=False)
@@ -71,7 +75,7 @@ class Usuario(AbstractBaseUser):
     
 
     def __str__(self):
-        return f" {self.nombre} - {self.email} - {self.tipo}"
+        return f"{self.username}  ({self.nombre}  {self.apellido})"
         
     def has_perm(self, perm, obj=None):
         return self.is_admin
@@ -80,16 +84,39 @@ class Usuario(AbstractBaseUser):
         return True
     # ver posibilidad de usar lista para elgir tipo
 
-class Publicacion(models.Model):
-    titulo = models.CharField(max_length=50)
-    autor = models.ForeignKey(Usuario, default=None, on_delete=models.CASCADE)
-    subtitulo = models.CharField(max_length=100)
-    noticia = models.TextField(max_length=5000)
-    fecha = models.DateTimeField(auto_now=True, auto_now_add=False, max_length=12)
-    id_autor = models.CharField(max_length=6)
 
+
+
+def upload_location(instance, archivo):
+    path_archivo= 'PlayApp/{id_autor}/{titulo}-{archivo}'.format(
+        id_autor=str(instance.autor.id), titulo=str(instance.titulo), archivo=archivo
+    )
+    return path_archivo
+class Publicacion(models.Model):
+    titulo = models.CharField(max_length=50, null=False, blank=False)
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    subtitulo = models.CharField(max_length=100, null=False, blank=False)
+    noticia = models.TextField(max_length=5000, null=False, blank=False)
+    imagen = models.ImageField(upload_to=upload_location, null=False, blank=False)
+    fecha_publi= models.DateTimeField(auto_now_add=True, verbose_name="fecha publicación")
+    fecha_actualizacion = models.DateTimeField(auto_now=True, verbose_name="fecha actualización")
+    slug = models.SlugField(blank=True, unique=True)
+    
     def __str__(self):
-        return f" {self.titulo} - {self.autor} - {self.fecha}"
+        return f" {self.titulo} - {self.autor}"
+
+@receiver(post_delete, sender=Publicacion)
+def submission_delete(sender, instance, **kargs):
+    instance.imagen.delete(False)
+
+
+def pre_save_publicacion_reciver(sender, instance, *arg, **kargs):
+    if not instance.slug:
+        instance.slug= slugify(instance.autor.username + "-" + instance.titulo)
+
+pre_save.connect(pre_save_publicacion_reciver, sender=Publicacion)
+
+
 
 
 

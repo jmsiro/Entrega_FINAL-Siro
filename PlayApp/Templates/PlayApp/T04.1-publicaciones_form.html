@@ -7,7 +7,7 @@
         <p style="color: red;">Los datos son incorrectos.</p>
     {% endif %} -->
 
-    <form action="" method="POST">{% csrf_token %}
+    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
        <table>
             {{ formulario_p.as_table}}
        </table>

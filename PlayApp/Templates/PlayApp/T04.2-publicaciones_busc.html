@@ -2,22 +2,21 @@
 {% load static %}
 {% block ContenidoTemplate %}
 
-<body>
+<body style="text-align:center">
+
+    <h2 style="color: peru;">Estos títulos pueden interesarte segun tu busqueda:</h2>
     {% if public %}
 
-    <ul>
+    <ol>
         {% for titulo in public %}
-            <li>{{titulo.titulo}}</li>
-            <li>{{titulo.nombre}}</li>
-            <li>{{titulo.noticia}}</li>
-            <li>{{titulo.fecha}}</li>
+            <li><a href="{% url 'Detalle Publicaciones' titulo.id %}">{{titulo.titulo}} - {{titulo.autor}} - {{titulo.fecha_publi}}</a></li>
         {% endfor %}
-    </ul>
+    </ol>
     {% endif %}
-    
-    <a href="{% url 'Crear Comentarios'  %}">Nuevo Comentario</a> 
 
-    <br><br><a href="{% url 'Lista Comentarios'  %}">Ver Comentarios</a> 
+    <br><br>
+    <input type = "button" value = "Volver" onclick = "history.back()">
+
 </body>
 
 

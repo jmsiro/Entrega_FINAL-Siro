@@ -1,0 +1,19 @@
+{% extends "PlayApp/T01-view.html" %}
+{% load static %}
+{% block ContenidoTemplate %}
+
+<body style="text-align:center">
+
+    {% if mensaje_de_confirmacion%}
+        <h3 style="color: springgreen;">{{mensaje_de_confirmacion}}</h3>
+    {% endif %}
+
+    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <table>
+         {{ formulario_p.as_table}}
+        </table>
+    <br><br> <input type="submit" value="Modificar">
+    </form>
+</body>
+
+{% endblock %}

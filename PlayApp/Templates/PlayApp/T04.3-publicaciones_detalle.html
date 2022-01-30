@@ -1,18 +1,28 @@
 {% extends "PlayApp/T01-view.html" %}
 {% load static %}
 {% block ContenidoTemplate %}
-<body>
+<body style="text-align:center">
 
+    
 
-
-    <p>Título: <i>{{ publicacion.titulo }}</i></p>
-    <p>Autor: <i>{{ publicacion.nombre }}</i></p>
-    <p>Noticia: <i>{{ publicacion.noticia }}</i></p>
-    <p>Fecha de publicación: <i>{{ publicacion.fecha }}</i></p>
+    <h2><i>{{ publicacion.titulo }}</i></h2>
+    <p><i>{{ publicacion.subtitulo }}</i></p>
+    <p><i><img src="http://127.0.0.1:8000/PlayApp{{ publicacion.imagen.url }}" style="max-height:350px"></i></p>
+    <!-- Ver si lo de la imagen sirve asi para cuando se sube a un host o hay que modificarlo. -->
+    <p><i>{{ publicacion.noticia }}</i></p>
+    <p><i>{{ publicacion.autor }}</i></p>
+    <p><i>{{ publicacion.fecha_publi }}</i></p>
     <p>
+        <a href="{% url 'Crear Comentarios'  %}">Nuevo Comentario</a> 
+        <br>
+        <a href="{% url 'Lista Comentarios'  %}">Ver Comentarios</a>
+        <br><br>
+        <a href="{% url 'Update Publicaciones' publicacion.slug %}">Editar Noticia</a>
+        <br>
         <a href="{% url 'Publicaciones' %}">Volver</a>
     </p>
 
 
 </body>
 {% endblock %}
+

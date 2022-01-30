@@ -1,8 +1,7 @@
 import email
 import re
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from django.template import loader
 from PlayApp.forms import *
 from PlayApp.models import *
 from django.views.generic import ListView 
@@ -13,16 +12,18 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
 
+
+# padre
 def primer_view(request):
     return render(request, "PlayApp/T01-view.html")
 
+# inicio
 def inicio(request):
-    publis = Publicacion.objects.all().order_by('-fecha') [0:3]           
+    publis = Publicacion.objects.all().order_by('-fecha_publi') [0:3]           
     return render(request, "PlayApp/T02-inicio.html", {"publis": publis})
     
-
+# Usuario
 def usuario(request):
     return render(request, "PlayApp/T03-usuario.html")
 
@@ -60,8 +61,6 @@ def login_usuario(request):
         if formulario.is_valid():
             data = formulario.cleaned_data
             
-            # usuario = form.cleaned_data.get('username')
-            # contra = form.cleaned_data.get('password')
 
             usuario = authenticate(username=data["username"], password=data["password"])
 
@@ -107,61 +106,71 @@ def update_usuario(request):
 
 
 
-# @login_required
-# class Update_Usuario(UpdateView):
-#     model = Usuario
-#     success_url = "/PlayApp/usuario_detalle/"
-#     template_name = "PlayApp/T03.1-usuario_form.html"
-#     fields = "__all__"
-
-# @login_required
-# class Detalle_Usuario(DetailView):
-#     model = Usuario
-#     template_name = "PlayApp/T03.2-usuario_detalle.html"
-# def register_usuario(request):
-#     if request.method == 'POST':
-#         form = UsuarioForm(request.POST)
-#         if form.is_valid():
-#             usuario = form.cleaned_data["username"]
-#             form.save()
-#             return render(request,"PlayApp/T02-inicio.html", {"mensaje":f"Usuario {usuario} creado exitosamente."})
-#         # else:
-#         #     return render(request, "PlayApp/T02-inicio.html", {"mensaje":"Error de registro, intente nuevamente."})
-#     else:
-#         form = UsuarioForm()
-#         return render(request,"PlayApp/T03.1-usuario_form.html", {"form":form})
 
 
-
-
+# Publicaciones
 def publicaciones(request):
-    publis = Publicacion.objects.all().order_by('-fecha') [0:3]           
+    publis = Publicacion.objects.all().order_by('-fecha_publi') [0:3]           
     return render(request, "PlayApp/T04-publicaciones.html", {"publis": publis})
 
 
 @login_required
 def publicaciones_form(request):
+    contexto = {}
+    usuario = request.user
+    if usuario.tipo != "AUTOR":
+        return render(request, "PlayApp/T02-inicio.html", {"mensaje":f"Su usuario: {usuario.get_username()}, no tiene permisos para publicar."})
+
     if request.method == "POST":
+        formulario_p = PublicacionesForm(request.POST, request.FILES) 
 
-        formulario_p = PublicacionesForm(request.POST)
-        print(formulario_p)
-        
         if formulario_p.is_valid():
-            info_p = formulario_p.cleaned_data
+            instancia = formulario_p.save(commit=False)
 
-            publi = Publicacion (titulo = info_p ["titulo"], subtitulo = info_p ["subtitulo"], noticia = info_p ["noticia"], fecha = info_p ["fecha"])
+            autor = Usuario.objects.filter(username=usuario.username).first()
 
-            instancia = publi.save()
-            instancia.autor = request.username
-            instancia.id_autor = request.username
+            instancia.autor = autor
             instancia.save()
-           
 
-            return render(request, "PlayApp/T02-inicio.html")
+            contexto["formulario_p"] = formulario_p
+
+            return redirect("Inicio")
+
 
     else:
         formulario_p = PublicacionesForm()
-        return render(request, "PlayApp/T04.1-publicaciones_form.html", {"formulario_p":formulario_p})
+        contexto["formulario_p"] = formulario_p
+    return render(request, "PlayApp/T04.1-publicaciones_form.html", contexto)
+    
+@login_required
+def update_publicacion(request, slug):
+    contexto = {}
+    usuario = request.user
+    publicacion = get_object_or_404(Publicacion, slug=slug)
+
+    if publicacion.autor != usuario:
+        return HttpResponse('Esta publicación no le pertenece, por lo tanto no puede modificarla!')
+
+    if request.POST:
+        formulario_p = UpdatePublicacionForm(request.POST , request.FILES, instance=publicacion) #ver si hace falta un "or None" en .post y .files
+        if formulario_p.is_valid():
+            instancia = formulario_p.save(commit=False)
+            instancia.save()
+            contexto['mensaje_de_confirmacion'] = "¡Noticia modificada exitosamente!"
+            publicacion = instancia
+
+    formulario_p = UpdatePublicacionForm(
+            initial = {
+                    "titulo": publicacion.titulo,
+                    "subtitulo": publicacion.subtitulo,
+                    "noticia": publicacion.noticia,
+                    "imagen": publicacion.imagen,
+            }
+        )
+
+    contexto['formulario_p'] = formulario_p
+    return render(request, 'PlayApp/T04.4-publicaciones_update.html', contexto)
+
 
 @login_required
 def publicaciones_busc(request):
@@ -171,7 +180,7 @@ def publicaciones_busc(request):
 def busqueda_publicacion(request):
     if request.GET["titulo"]:
         titulo = request.GET["titulo"]
-        public = Publicacion.objects.filter(titulo__icontains=titulo)
+        public = Publicacion.objects.filter(titulo__icontains=titulo).order_by("-fecha_publi")
 
         return render(request, "PlayApp/T04.2-publicaciones_busc.html" , {"public":public})
     else:
@@ -179,10 +188,26 @@ def busqueda_publicacion(request):
 
     return HttpResponse(public)
 
+
+def detalle_publicacion(request, slug):
+
+    contexto = {}
+
+    publicacion = get_object_or_404(Publicacion, slug=slug)
+    contexto['publicacion'] = publicacion
+
+    return render(request, 'PlayApp/T04.3-publicaciones_detalle.html', contexto)
+
+
+
+
+# Sobre Nosotros
 def sobre_nosotros(request):
     return render(request, "PlayApp/T05-sobre_nosotros.html")
 
 
+
+# Comentarios
 def comentarios(request):
     if request.method == "POST":
 
@@ -202,12 +227,6 @@ def comentarios(request):
         formulario_c = ComentariosForm()
 
         return render(request, "PlayApp/T06-comentarios.html", {"formulario_c":formulario_c})
-
-class Detalle_Publicacion(DetailView):
-    model = Publicacion
-    template_name = "PlayApp/T04.3-publicaciones_detalle.html"
-
-
 
 
 

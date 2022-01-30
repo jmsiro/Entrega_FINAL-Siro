@@ -8,11 +8,16 @@
                 <div class="col-md-5 col-lg-5 col-xl-5">
                     <!-- Post preview-->
                     <h1 style="color:limegreen">ÚLTIMOS TITULARES</h1>
+                    <br><br>
                         {% for object in publis %}
-                            <div class="post-preview">  
-                                <h1 class="post-title"><a href="{% url 'Detalle Publicaciones' object.id %}">{{object.titulo}}</a></h1>
-                                <h4 class="autor">{{object.autor}}</h4>
+                            
+                            <div class="post-preview">
+                                
+                                <h1 class="post-title"><a href="{% url 'Detalle Publicaciones' object.slug %}">{{object.titulo}}</a></h1>
                                 <p class="post-subtitle">{{object.subtitulo}}</p>
+                                <img src="http://127.0.0.1:8000/PlayApp{{ object.imagen.url }}" style="max-height:100px">
+                                <p class="autor">{{object.autor}} <br><br><br><br></p>
+                                
                             </div>
                         {% endfor %}
                 </div>            
