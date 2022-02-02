@@ -9,7 +9,7 @@
     <p><i>{{ publicacion.subtitulo }}</i></p>
     <p><i><img src="http://127.0.0.1:8000/PlayApp{{ publicacion.imagen.url }}" style="max-height:350px"></i></p>
     <!-- Ver si lo de la imagen sirve asi para cuando se sube a un host o hay que modificarlo. -->
-    <p><i>{{ publicacion.noticia }}</i></p>
+    <p><i>{{ publicacion.noticia|safe }}</i></p>
     <p><i>{{ publicacion.autor }}</i></p>
     <p><i>{{ publicacion.fecha_publi }}</i></p>
     <p>

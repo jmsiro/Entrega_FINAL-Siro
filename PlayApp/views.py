@@ -188,7 +188,7 @@ def busqueda_publicacion(request):
 
     return HttpResponse(public)
 
-
+@login_required
 def detalle_publicacion(request, slug):
 
     contexto = {}

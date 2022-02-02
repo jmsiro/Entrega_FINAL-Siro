@@ -7,6 +7,8 @@ from django.db.models.signals import pre_save, post_delete
 from django.utils.text import slugify
 from django.dispatch import receiver
 
+from ckeditor.fields import RichTextField
+
 
 # Create your models here.
 class Manager_Usuario(BaseUserManager):
@@ -96,7 +98,7 @@ class Publicacion(models.Model):
     titulo = models.CharField(max_length=50, null=False, blank=False)
     autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     subtitulo = models.CharField(max_length=100, null=False, blank=False)
-    noticia = models.TextField(max_length=5000, null=False, blank=False)
+    noticia = RichTextField(max_length=5000)
     imagen = models.ImageField(upload_to=upload_location, null=False, blank=False)
     fecha_publi= models.DateTimeField(auto_now_add=True, verbose_name="fecha publicación")
     fecha_actualizacion = models.DateTimeField(auto_now=True, verbose_name="fecha actualización")

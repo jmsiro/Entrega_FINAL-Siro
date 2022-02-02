@@ -43,12 +43,25 @@ class PublicacionesForm(forms.ModelForm):
     class Meta:
         model = Publicacion
         fields = ("titulo","subtitulo", "noticia", "imagen")
+        widgets = {
+            'titulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder':'Titulo...'}),
+            'subtitulo': forms.TextInput(attrs={
+                'class': 'form-control', 
+                'placeholder':'Subtitulo...'}),
+            'noticia': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder':'Noticia...'}),
+
+        }
 
 class UpdatePublicacionForm(forms.ModelForm):
 
     class Meta:
         model = Publicacion
         fields = ("titulo","subtitulo", "noticia", "imagen")
+        
 
     def guardar(self, commit=True):
         publicacion = self.instance

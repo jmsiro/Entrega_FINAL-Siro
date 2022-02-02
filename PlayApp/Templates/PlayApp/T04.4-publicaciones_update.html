@@ -8,11 +8,14 @@
         <h3 style="color: springgreen;">{{mensaje_de_confirmacion}}</h3>
     {% endif %}
 
+   
     <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
-        <table>
-         {{ formulario_p.as_table}}
-        </table>
-    <br><br> <input type="submit" value="Modificar">
+        <p>
+            {{formulario_p.media}}
+            {{formulario_p.as_p|safe}}
+        </p>
+
+        <br><br><input type="submit" value="Publicar"> <input type="button" value="Volver" onclick="history.back()">
     </form>
 </body>
 

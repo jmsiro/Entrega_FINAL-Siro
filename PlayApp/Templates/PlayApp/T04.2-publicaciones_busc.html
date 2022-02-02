@@ -9,7 +9,7 @@
 
     <ol>
         {% for titulo in public %}
-            <li><a href="{% url 'Detalle Publicaciones' titulo.id %}">{{titulo.titulo}} - {{titulo.autor}} - {{titulo.fecha_publi}}</a></li>
+            <li><a href="{% url 'Detalle Publicaciones' titulo.slug %}">{{titulo.titulo}} - {{titulo.autor}} - {{titulo.fecha_publi}}</a></li>
         {% endfor %}
     </ol>
     {% endif %}

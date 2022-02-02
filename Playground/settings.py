@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'PlayApp', 
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +138,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn') # Content Delivery Network
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = "/PlayApp/usuario/"
+
+CKEDITOR_UPLOAD_PATH="upload/"
+

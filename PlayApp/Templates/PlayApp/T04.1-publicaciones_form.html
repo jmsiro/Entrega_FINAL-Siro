@@ -3,16 +3,18 @@
 {% block ContenidoTemplate %}
 
 <body>
-    <!-- {% if formulario_p.errors %}
-        <p style="color: red;">Los datos son incorrectos.</p>
-    {% endif %} -->
-
-    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
-       <table>
-            {{ formulario_p.as_table}}
-       </table>
-       <br><br><input type="submit" value="Publicar">
-    </form>
+    
+    <div class="form-group">
+        <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    
+            <p>
+                {{formulario_p.media}}
+                {{formulario_p.as_p|safe}}
+            </p>
+    
+            <br><br><input type="submit" value="Publicar"> 
+        </form>
+    </div>
     
 
     
