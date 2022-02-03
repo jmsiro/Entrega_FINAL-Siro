@@ -5,13 +5,15 @@
 
     
 
-    <h2><i>{{ publicacion.titulo }}</i></h2>
-    <p><i>{{ publicacion.subtitulo }}</i></p>
+    <h1><i>{{ publicacion.titulo }}</i></h1>
+    <h4><i>{{ publicacion.subtitulo }}</i></h4>
+    <hr/>
     <p><i><img src="http://127.0.0.1:8000/PlayApp{{ publicacion.imagen.url }}" style="max-height:350px"></i></p>
     <!-- Ver si lo de la imagen sirve asi para cuando se sube a un host o hay que modificarlo. -->
     <p><i>{{ publicacion.noticia|safe }}</i></p>
-    <p><i>{{ publicacion.autor }}</i></p>
-    <p><i>{{ publicacion.fecha_publi }}</i></p>
+    <hr/>
+    <p style="color:dimgrey; font-size: 13px; text-transform: uppercase;"><i>{{ publicacion.autor }} | {{ publicacion.fecha_publi }}</i></p>
+    <hr/>
     <p>
         <a href="{% url 'Crear Comentarios'  %}">Nuevo Comentario</a> 
         <br>
