@@ -2,18 +2,18 @@
 {% load static %}
 {% block ContenidoTemplate %}
 
-<h1 style="color:darkorange">ÚLTIMOS TITULARES</h1>
+<h2 style="color:darkorange">ÚLTIMOS TITULARES</h2><hr>
 {% for object in publis %}
     <ul>
-        <h2><a href="{% url 'Detalle Publicaciones' object.slug %}">{{object.titulo}}</a></h2>
-        <h4>{{object.nombre}}</h4>
+        <h4><a href="{% url 'Detalle Publicaciones' object.slug %}">{{object.titulo}}</a></h4>
+        <p>{{object.nombre}}</p><hr>
     </ul>
 {% endfor %}
-<a href="{% url 'Publicaciones Form' %}" class="button">Hacer una publicacion</a>
+<br><a  class="btn btn-warning btn-lg active" href="{% url 'Publicaciones Form' %}">Hacer una publicacion</a>
 
 <form action="/PlayApp/busqueda_publicacion/" method="GET">
-    <input type="text" name="titulo" id="titulo">
-    <input type="submit" value="Buscar">
+    <br><input type="text" name="titulo" id="titulo">
+    <input type="submit" value="Buscar" span="glyphicon glyphicon-search">   
 </form>
 
 

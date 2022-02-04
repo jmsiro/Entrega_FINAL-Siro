@@ -10,13 +10,13 @@
         {{ formulario.as_p}}
         
        
-        <input type="submit" value="Iniciar sesión">
+        <input class="btn btn-success btn-lg active" type="submit" value="Iniciar sesión">
     
     </form>
     <br>
     <p style="color:firebrick">Si no tenes un usuario create uno!</p>
     <button type="button">
-        <a href="{% url 'Usuario Form' %}">Crear Usuario</a>
+        <a href="{% url 'Usuario Form' %}" class="btn btn-primary btn-lg active" role="button">Crear Usuario</a>
     </button>
 
 
