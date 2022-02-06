@@ -1,3 +1,4 @@
+
 from django.urls import path
 from PlayApp import views
 from django.conf import settings
@@ -19,7 +20,7 @@ urlpatterns = [
     path("publicaciones_busc/", views.publicaciones_busc, name = "Publicaciones Busc"),
     path("<slug>/", views.detalle_publicacion, name = "Detalle Publicaciones"),
     path("<slug>/publicaciones_update/", views.update_publicacion, name = "Update Publicaciones"),
-    path("about/", views.sobre_nosotros, name = "Sobre Nosotros"),
+    path("/about/", views.sobre_nosotros, name = "Sobre Nosotros"),
     
     path("comentarios/", views.comentarios, name = "Comentarios"),
     path("comentarios_lista/", views.Listar_Comentario.as_view(), name = "Lista Comentarios" ),

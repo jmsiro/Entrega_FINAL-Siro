@@ -214,7 +214,7 @@ def comentarios(request):
         formulario_c = ComentariosForm(request.POST)
         print(formulario_c)
 
-        if formulario_c.is_valid:
+        if formulario_c.is_valid():
             info_c = formulario_c.cleaned_data
 
             coment = Comentario (nombre = info_c ["nombre"], comentario = info_c ["comentario"], fecha = info_c ["fecha"], publicacion = info_c ["publicacion"] )
@@ -234,7 +234,7 @@ class Crear_Comentario(LoginRequiredMixin, CreateView):
     login_url = "/PlayApp/usuario/"
     model = Comentario
     success_url = "/PlayApp/comentarios_lista/"
-    template_name = "PlayApp/T06.2-comentarios_form.html"
+    template_name = "/PlayApp/T06.2-comentarios_form.html"
     fields = ["nombre", "comentario"]
 
 class Detalle_Comentario(DetailView):
