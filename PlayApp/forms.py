@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from PlayApp.models import Usuario
 from PlayApp.models import Publicacion
-
+from PlayApp.models import Comentario
 
 
 
@@ -77,9 +77,22 @@ class UpdatePublicacionForm(forms.ModelForm):
 
 
 
-class ComentariosForm(forms.Form):
-    nombre = forms.CharField()
-    comentario = forms.CharField(widget=forms.Textarea())
-    fecha = forms.DateField(initial=datetime.now(), show_hidden_initial=True)
-   
+class ComentariosForm(forms.ModelForm):
+    class Meta:
+        model = Comentario
+        fields = ("comentario",)
+
+        widgets = {
+            'comentario': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder':'Comentario...'}),
+        }
+
+    def guardar(self, commit=True):
+        comentario = self.instance
+        comentario.comentario = self.cleaned_data('comentario')
+
+        if commit:
+            comentario.save()
+        
 

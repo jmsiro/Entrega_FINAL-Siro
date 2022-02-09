@@ -143,10 +143,11 @@ def publicaciones_form(request):
     return render(request, "PlayApp/T04.1-publicaciones_form.html", contexto)
     
 @login_required
-def update_publicacion(request, slug):
+# podemos usar slug en lugar de pk, probar
+def update_publicacion(request, pk):  
     contexto = {}
     usuario = request.user
-    publicacion = get_object_or_404(Publicacion, slug=slug)
+    publicacion = get_object_or_404(Publicacion, pk=pk)
 
     if publicacion.autor != usuario:
         return HttpResponse('Esta publicación no le pertenece, por lo tanto no puede modificarla!')
@@ -189,11 +190,13 @@ def busqueda_publicacion(request):
     return HttpResponse(public)
 
 @login_required
-def detalle_publicacion(request, slug):
+def detalle_publicacion(request, pk):
 
     contexto = {}
 
-    publicacion = get_object_or_404(Publicacion, slug=slug)
+    publicacion = get_object_or_404(Publicacion, pk=pk)
+    comentarios = publicacion.comentarios.all().order_by('-fecha') [0:3]           
+    contexto["comentarios"] = comentarios
     contexto['publicacion'] = publicacion
 
     return render(request, 'PlayApp/T04.3-publicaciones_detalle.html', contexto)
@@ -207,53 +210,57 @@ def sobre_nosotros(request):
 
 
 
-# Comentarios
-def comentarios(request):
-    if request.method == "POST":
 
-        formulario_c = ComentariosForm(request.POST)
-        print(formulario_c)
+def comentarios_form(request, pk):
+    contexto = {}
+    usuario = request.user
+    publicacion = get_object_or_404(Publicacion, pk=pk)
+
+    if request.method == "POST":
+        formulario_c = ComentariosForm(request.POST) 
 
         if formulario_c.is_valid():
-            info_c = formulario_c.cleaned_data
+            instancia = formulario_c.save(commit=False)
 
-            coment = Comentario (nombre = info_c ["nombre"], comentario = info_c ["comentario"], fecha = info_c ["fecha"], publicacion = info_c ["publicacion"] )
+            autor = Usuario.objects.filter(username=usuario.username).first()
 
-            coment.save()
+            instancia.publicacion = publicacion
+            instancia.nombre = autor
+            instancia.save()
 
-            return render(request, "PlayApp/T02-inicio.html")
+            contexto["formulario_c"] = formulario_c
+
+            return redirect("Inicio")
 
     else:
         formulario_c = ComentariosForm()
+        contexto["formulario_c"] = formulario_c
+    return render(request, "PlayApp/T06.2-comentarios_form.html", contexto)
 
-        return render(request, "PlayApp/T06-comentarios.html", {"formulario_c":formulario_c})
 
+def comentarios_lista(request, pk):
 
+    contexto = {}
 
-class Crear_Comentario(LoginRequiredMixin, CreateView):
-    login_url = "/PlayApp/usuario/"
-    model = Comentario
-    success_url = "/PlayApp/comentarios_lista/"
-    template_name = "/PlayApp/T06.2-comentarios_form.html"
-    fields = ["nombre", "comentario"]
+    publicacion = get_object_or_404(Publicacion, pk=pk)
 
-class Detalle_Comentario(DetailView):
-    model = Comentario
-    template_name = "PlayApp/T06.3-comentarios_detalle.html"
-    
-class Listar_Comentario(ListView):
-    model = Comentario
-    template_name = "PlayApp/T06.1-comentarios_lista.html"
+    comentarios = publicacion.comentarios.all().order_by("-fecha")
+
+    contexto['publicacion'] = publicacion
+    contexto['comentarios'] = comentarios
+
+    return render(request, 'PlayApp/T06.1-comentarios_lista.html', contexto)
+
     
 class Delete_Comentario(DeleteView):
     model = Comentario
-    success_url = "/PlayApp/comentarios_lista/"
+    success_url = "/PlayApp/publicaciones/"
     template_name = "PlayApp/T06.4-comentarios_confirm_delete.html"
+
     
 class Update_Comentario(UpdateView):
     model = Comentario
-    success_url = "/PlayApp/comentarios_lista/"
+    success_url = "/PlayApp/publicaciones/"
     template_name = "PlayApp/T06.2-comentarios_form.html"
-    fields = ["nombre", "comentario"]
-
+    form_class = ComentariosForm
 

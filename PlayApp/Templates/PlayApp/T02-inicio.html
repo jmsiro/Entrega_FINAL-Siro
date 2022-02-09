@@ -13,7 +13,7 @@
                             
                             <div class="post-preview">
                                 <!-- <hr/>                -->
-                                <h1 class="post-title"><a href="{% url 'Detalle Publicaciones' object.slug %}">{{object.titulo}}</a></h1>
+                                <h1 class="post-title"><a href="{% url 'Detalle Publicaciones' object.id %}">{{object.titulo}}</a></h1>
                                 <p class="post-subtitle">{{object.subtitulo}}</p>
                                 <img src="http://127.0.0.1:8000/PlayApp{{ object.imagen.url }}" style="max-height:100px">
                                 <p class="autor">{{object.autor}} <br></p>

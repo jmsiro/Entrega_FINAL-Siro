@@ -5,24 +5,24 @@
 
     <h2>Comentarios</h2>
     <ul>
-        {% for comentario in object_list %} 
-
-            <li>
-                <p>COMENTARIO: {{ comentario.comentario }} </p>
-                <p> 
-                    <a href="{% url 'Detalle Comentarios' comentario.id %}">Ver</a> | 
-                    <a href="{% url 'Update Comentarios' comentario.id %}">Editar</a> | 
-                    <a href="{% url 'Delete Comentarios' comentario.id %}">Borrar</a> 
-
-                </p> 
-            </li>
-
-        {% endfor %}
+        
+        {% for comentario in comentarios %}
+        <li>
+            <p>Nombre del Usuario: <i>{{ comentario.nombre }}</i></p>
+            <p>Comentario: <i>{{ comentario.comentario }}</i></p>
+            <p>Fecha de Publicacion: <i>{{ comentario.fecha }}</i></p>
+            <a href="{% url 'Update Comentarios' comentario.id %}">Editar</a> | 
+            <a href="{% url 'Delete Comentarios' comentario.id %}">Borrar</a>
+            <hr>
+            {% endfor %}
+        </li>
     </ul>
-
-    <a href="{% url 'Crear Comentarios'  %}">Nuevo Comentario</a>  
+        <p>
+            <br><input class="btn btn-danger" type="button" value="Volver" onclick="history.back()">
+        </p>
     
-    <br><br><input class="btn btn-primary" type="button" value="Volver" onclick="history.back()">
+
+
 
 </body>
 {% endblock %}

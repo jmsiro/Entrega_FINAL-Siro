@@ -5,7 +5,7 @@
 <h2 style="color:darkorange">ÚLTIMOS TITULARES</h2><hr>
 {% for object in publis %}
     <ul>
-        <h4><a href="{% url 'Detalle Publicaciones' object.slug %}">{{object.titulo}}</a></h4>
+        <h4><a href="{% url 'Detalle Publicaciones' object.id %}">{{object.titulo}}</a></h4>
         <p>{{object.nombre}}</p><hr>
     </ul>
 {% endfor %}

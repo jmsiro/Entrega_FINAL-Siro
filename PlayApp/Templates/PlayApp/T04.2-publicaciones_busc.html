@@ -4,12 +4,12 @@
 
 <body style="text-align:center">
 
-    <h2 style="color: peru;">Estos títulos pueden interesarte segun tu busqueda:</h2>
+    <h2 style="color: orange;">Títulos que pueden interesarte según tu busqueda:</h2>
     {% if public %}
 
     <ol>
         {% for titulo in public %}
-            <li><a href="{% url 'Detalle Publicaciones' titulo.slug %}">{{titulo.titulo}} - {{titulo.autor}} - {{titulo.fecha_publi}}</a></li>
+            <li><a href="{% url 'Detalle Publicaciones' titulo.id %}">{{titulo.titulo}} - {{titulo.autor}} - {{titulo.fecha_publi}}</a></li>
         {% endfor %}
     </ol>
     {% endif %}

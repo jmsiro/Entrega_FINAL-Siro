@@ -3,7 +3,7 @@
 {% block ContenidoTemplate %}
 <body style="text-align:center">
 
-    
+
 
     <h1><i>{{ publicacion.titulo }}</i></h1>
     <h4><i>{{ publicacion.subtitulo }}</i></h4>
@@ -14,17 +14,33 @@
     <hr/>
     <p style="color:dimgrey; font-size: 13px; text-transform: uppercase;"><i>{{ publicacion.autor }} | {{ publicacion.fecha_publi }}</i></p>
     <hr/>
-    <p>
-        <a href="{% url 'Crear Comentarios'  %}">Nuevo Comentario</a> 
-        <br>
-        <a href="{% url 'Lista Comentarios'  %}">Ver Comentarios</a>
-        <br><br>
-        <a href="{% url 'Update Publicaciones' publicacion.slug %}">Editar Noticia</a>
+
+        <h2>Últimos comentarios...</h2>
+
+        {% if not comentarios  %}
+            Sin comentarios aun... 
+            <br><br><a class="btn btn-primary btn-lg active" href="{% url 'Crear Comentarios' publicacion.id %}">Hacer un comentario</a>
+        {% else %}
+
+        {% for comentario in comentarios %}
+
+        <b style="font-size:small">
+            {{comentario.nombre}} -
+            {{comentario.fecha}}
+        </b>
+        <p style="font-size: medium">
+        {{comentario.comentario}}
+        </p>
+        <hr>
+
+        {% endfor %}
+        <br><a class="btn btn-warning btn-lg active" href="{% url 'Lista Comentarios' publicacion.id %}">Ver comentarios</a>
+        <br><br><a class="btn btn-primary btn-lg active" href="{% url 'Crear Comentarios' publicacion.id %}">Hacer un comentario</a>
+        {% endif %}
+        <hr>
+        <a href="{% url 'Update Publicaciones' publicacion.id %}">Editar Noticia</a>
         <br>
         <a href="{% url 'Publicaciones' %}">Volver</a>
-    </p>
-
 
 </body>
 {% endblock %}
-

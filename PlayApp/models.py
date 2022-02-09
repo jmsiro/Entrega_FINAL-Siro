@@ -123,11 +123,10 @@ pre_save.connect(pre_save_publicacion_reciver, sender=Publicacion)
 
 
 class Comentario(models.Model):
-    nombre = models.CharField(max_length=40)
+    publicacion = models.ForeignKey(Publicacion, related_name="comentarios", on_delete=models.CASCADE, default="")
+    nombre = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     comentario = models.TextField(max_length=300)
-    fecha = models.DateTimeField(auto_now=True, auto_now_add=False, max_length=12)
-    # publicacion = models.IntegerField() Buscar que se cargue automaticamante el id de publicacion asociada al comentario.
+    fecha = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f" {self.nombre}  - {self.fecha}" #{self.publicacion}
-
+    def str(self):
+        return f" {self.publicacion.titulo} - {self.nombre}  - {self.fecha}"

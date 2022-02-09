@@ -2,18 +2,20 @@
 {% load static %}
 {% block ContenidoTemplate %}
 <body>
+        <div class="form-group" style="height:auto; margin: 0 auto; text-align:center;">
+            <form action="" method="POST" enctype="multipart/form-data" style="width:45%; margin: 0 auto;">{% csrf_token %}
 
+                <p>
+                    {{formulario_c.media}}
+                    {{formulario_c.as_p|safe}}
+                </p>
+                <p>
+                    {{form.media}}
+                    {{form.as_p|safe}}
+                </p>
 
-    <form method="post">{% csrf_token %}
-        
-        {{ formulario_c.as_p }}
-        
-       
-        <input class="btn btn-primary" type="submit" value="Enviar" />
-    </form>
-
-
-
-
+                <br><br><input class="btn btn-success  btn-lg active" type="submit" value="Comentar"> 
+            </form>
+        </div>
 </body>
 {% endblock %}
