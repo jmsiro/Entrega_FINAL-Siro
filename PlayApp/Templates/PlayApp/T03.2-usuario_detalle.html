@@ -25,6 +25,12 @@
             </p>
         {% endfor %}    
        <input class="btn btn-success btn-lg active" type="submit" value="Guardar Cambios">
+        
+        {% if user.tipo == "LECTOR" %}
+            <br><br><p style="color:gray">Tu usuario es de tipo: {{user.tipo}}, si queres convertirte en AUTOR comunicate a "noti.blog@outlook.com"</p>
+        {% else %}
+            <br><br><p style="color:gray">Por consultas sobre tu Usuario comunicate a "noti.blog@outlook.com"</p> 
+        {% endif %}
     </form>
 </body>
 

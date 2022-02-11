@@ -17,13 +17,13 @@ class UsuarioForm(UserCreationForm):
 
     class Meta:
         model = Usuario
-        fields = ["username", "nombre", "apellido", "email", "tipo", "password1", "password2"]
+        fields = ["username", "nombre", "apellido", "email", "password1", "password2"]
 
 class UsuarioUpdateForm(forms.ModelForm):
     # password = forms.CharField(label='Clave', widget=forms.PasswordInput)
     class Meta:
         model = Usuario
-        fields = ("username", "nombre", "apellido", "email", "tipo")
+        fields = ("username", "nombre", "apellido", "email")
 
     def clean_username(self):
         if self.is_valid():

@@ -223,6 +223,7 @@ def comentarios_form(request, pk):
             instancia = formulario_c.save(commit=False)
 
             autor = Usuario.objects.filter(username=usuario.username).first()
+            
 
             instancia.publicacion = publicacion
             instancia.nombre = autor
@@ -255,7 +256,7 @@ def comentarios_lista(request, pk):
 class Delete_Comentario(DeleteView):
     model = Comentario
     success_url = "/PlayApp/publicaciones/"
-    template_name = "PlayApp/T06.4-comentarios_confirm_delete.html"
+    template_name = "PlayApp/T06.3-comentarios_confirm_delete.html"
 
     
 class Update_Comentario(UpdateView):

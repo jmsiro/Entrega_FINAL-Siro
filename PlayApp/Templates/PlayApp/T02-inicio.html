@@ -1,27 +1,35 @@
 {% extends "PlayApp/T01-view.html" %}
 {% load static %}
 {% block ContenidoTemplate %}
-        <!-- Main Content-->
+<body>      
+    {% if mensaje %}
         <h1>{{mensaje}}</h1>
+    {% else %}
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-5 col-lg-5 col-xl-5">
-                    <!-- Post preview-->
-                    <h1 style="color:limegreen">ÚLTIMOS TITULARES</h1>
-                    <br><br>
-                        {% for object in publis %}
-                            
-                            <div class="post-preview">
-                                <!-- <hr/>                -->
-                                <h1 class="post-title"><a href="{% url 'Detalle Publicaciones' object.id %}">{{object.titulo}}</a></h1>
-                                <p class="post-subtitle">{{object.subtitulo}}</p>
-                                <img src="http://127.0.0.1:8000/PlayApp{{ object.imagen.url }}" style="max-height:100px">
-                                <p class="autor">{{object.autor}} <br></p>
-                                <hr/>
+                <div class="col-md-5 col-lg-5 col-xl-6">
+                    
+                    <div class="p-5 text-center bg-auto">
+                        <h1 class="mb-3" style="color:darkorange"><u>ÚLTIMOS</u> <u>TITULARES</u></h1>
+                    </div>
+                        
+                    {% for object in publis %}
+                        <div class="w3-half">
+                            <div class="w3-card">
+                            <img src="http://127.0.0.1:8000/PlayApp{{ object.imagen.url }}" style="width:100%">
+                                <div class="w3-container">
+                                    <h1 class="post-title"><a href="{% url 'Detalle Publicaciones' object.id %}">{{object.titulo}}</a></h1>
+                                    <p class="post-subtitle">{{object.subtitulo}}</p>
+                                    <p class="autor" style="font-size:15px">{{object.autor}} <br></p>
+                                </div>
                             </div>
-                        {% endfor %}
+                        </div>
+                        <hr>
+                    {% endfor %}
                 </div>            
             </div>
         </div>
+    {% endif %}
+</body> 
         
 {% endblock %}        

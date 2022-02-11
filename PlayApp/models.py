@@ -64,7 +64,7 @@ class Usuario(AbstractBaseUser):
     email = models.EmailField(max_length=254, verbose_name="email", unique=True)
     # password1 = models.CharField(max_length=12)
     # password2 = models.CharField(max_length=12)
-    tipo = models.CharField(max_length=6, choices=TIPO_USUARIO, default="")
+    tipo = models.CharField(max_length=6, choices=TIPO_USUARIO, default="LECTOR")
     date_joined = models.DateTimeField(verbose_name="Fecha de Registro", auto_now_add=True)
     last_login = models.DateTimeField(verbose_name="Ultima Conexión", auto_now=True) 
     is_admin = models.BooleanField(default=False)
@@ -77,7 +77,7 @@ class Usuario(AbstractBaseUser):
     
 
     def __str__(self):
-        return f"{self.username}  ({self.nombre}  {self.apellido})"
+        return f"{self.username}  ({self.nombre}  {self.apellido} - {self.tipo})"
         
     def has_perm(self, perm, obj=None):
         return self.is_admin
@@ -128,5 +128,5 @@ class Comentario(models.Model):
     comentario = models.TextField(max_length=300)
     fecha = models.DateTimeField(auto_now_add=True)
 
-    def str(self):
-        return f" {self.publicacion.titulo} - {self.nombre}  - {self.fecha}"
+    def __str__(self):
+        return f" {self.publicacion} - {self.nombre} - {self.fecha} "

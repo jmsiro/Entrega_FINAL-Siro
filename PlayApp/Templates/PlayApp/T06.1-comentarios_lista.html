@@ -2,25 +2,28 @@
 {% load static %}
 {% block ContenidoTemplate %}
 <body>
-
-    <h2>Comentarios</h2>
-    <ul>
+    
+    <div class="w3-container">
+        <h2>Comentarios</h2>
+        <ul>
         
         {% for comentario in comentarios %}
-        <li>
-            <p>Nombre del Usuario: <i>{{ comentario.nombre }}</i></p>
-            <p>Comentario: <i>{{ comentario.comentario }}</i></p>
-            <p>Fecha de Publicacion: <i>{{ comentario.fecha }}</i></p>
-            <a href="{% url 'Update Comentarios' comentario.id %}">Editar</a> | 
-            <a href="{% url 'Delete Comentarios' comentario.id %}">Borrar</a>
-            <hr>
-            {% endfor %}
-        </li>
-    </ul>
+            <li>
+                <p><i>{{ comentario.comentario }}</i></p>
+                <p><i>{{ comentario.nombre }} - {{ comentario.fecha }}</i></p>
+                
+                {% if user == comentario.nombre %}
+                    <a href="{% url 'Update Comentarios' comentario.id %}">Editar</a> | 
+                    <a href="{% url 'Delete Comentarios' comentario.id %}">Borrar</a>
+                {% endif %}
+                <hr>
+                {% endfor %}
+            </li>
+        </ul>
         <p>
             <br><input class="btn btn-danger" type="button" value="Volver" onclick="history.back()">
         </p>
-    
+    </div>
 
 
 
