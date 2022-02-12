@@ -10,7 +10,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from functools import wraps
-
+import os
 
 # padre
 def primer_view(request):
@@ -29,7 +29,7 @@ def usuario_form(request):
     contexto = {}
     
     if request.POST:
-        formulario = UsuarioForm(request.POST)
+        formulario = UsuarioForm(request.POST, request.FILES)
         
         if formulario.is_valid():
             formulario.save()
@@ -81,10 +81,15 @@ def logout_usuario(request):
 @login_required
 def update_usuario(request):
     contexto = {}
-
+    if request.user.avatar != "":
+        os.remove(request.user.avatar.path)
+    
+    
     if request.POST:
-        formulario = UsuarioUpdateForm(request.POST, instance=request.user)  
+        formulario = UsuarioUpdateForm(request.POST, request.FILES, instance=request.user)  
+        
         if formulario.is_valid():
+            
             formulario.save()
             usuario = request.user
             return render(request, "PlayApp/T02-inicio.html", {"mensaje":f"Modificaste exitosamente tu usuario: {usuario.get_username()}"})
@@ -95,6 +100,7 @@ def update_usuario(request):
                 "nombre": request.user.nombre,
                 "apellido": request.user.apellido,
                 "email": request.user.email,
+                "avatar": request.user.avatar,
                 "tipo": request.user.tipo
                 
             }

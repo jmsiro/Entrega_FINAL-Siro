@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='publicacion',
             name='imagen',
-            field=models.ImageField(default='', upload_to=PlayApp.models.upload_location),
+            field=models.ImageField(default='', upload_to=PlayApp.models.upload_publicacion),
             preserve_default=False,
         ),
         migrations.AddField(

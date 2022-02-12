@@ -4,28 +4,30 @@
 
 <body style="text-align:center">
     
+    <div class="form-group" style="height:auto; margin: 0 auto; text-align:center;">    
+        <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        
+            
+        
+            {% for campo in usuario_formulario %}
+                <p>
+                    {{campo.label_tag}}
+                    <br>{{campo}}
+
+                    {% if campo.help_text %}
+                        <small style="color:darkslategray;"><br>{{campo.help_text}}</small>
+                    {% endif %}
+
+                    
+                    {% for error in campo.errors %}
+                        <p style="color: firebrick;"><br>{{error}}</p>
+                    {% endfor %}
+                </p>
+            {% endfor %}    
+        <input class="btn btn-success btn-lg active" type="submit" value="Crear">
+        </form>
+    </div>
     
-    <form action="" method="POST">{% csrf_token %}
-       
-           
-       
-        {% for campo in usuario_formulario %}
-            <p>
-                {{campo.label_tag}}
-                <br>{{campo}}
-
-                {% if campo.help_text %}
-                    <small style="color:darkslategray;"><br>{{campo.help_text}}</small>
-                {% endif %}
-
-                
-                {% for error in campo.errors %}
-                    <p style="color: firebrick;"><br>{{error}}</p>
-                {% endfor %}
-            </p>
-        {% endfor %}    
-       <input class="btn btn-success btn-lg active" type="submit" value="Crear">
-    </form>
 </body>
 
 

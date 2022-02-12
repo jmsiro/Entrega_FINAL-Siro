@@ -31,6 +31,11 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'Publicaciones' %}">Noticias</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'Sobre Nosotros' %}">Sobre Nosotros</a></li>
                         {% if request.user.is_authenticated %}
+                            {%  if request.user.avatar %}
+                                <img src="{{ request.user.avatar.url }}" style="display: block;width: 40px;height: 40px;margin: auto;border-radius:20%" class="card-img">
+                            {% else%}
+                                <img src="{% static 'PlayApp/assets/img/avatar-default.png' %}" style="display: block;width: 40px;height: 40px;margin: auto; border-radius:20%;" class="card-img">
+                            {% endif %}
                             <li class="nav-item dropdown dropend">
                                 <a class="nav-link dropdown-toggle px-lg-3 py-3 py-lg-4" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     ({{request.user.username}})
@@ -41,8 +46,8 @@
                                     <li><a class="dropdown-item" href="{% url 'Usuario Logout' %}">Cerrar sesión</a></li>
                                 </ul>
                             </li>
-                        {% else %}
-                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'Usuario' %}">Ingrese</a></li>
+                            {% else %}
+                                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'Usuario' %}">Ingrese</a></li>
                         {% endif %}
                     </ul>
                 </div>

@@ -13,7 +13,7 @@ from ckeditor.fields import RichTextField
 # Create your models here.
 class Manager_Usuario(BaseUserManager):
     #Para hacer el manager la documentación recomienda sobreescribir estos 2 metodos
-    def create_user(self, username, nombre, apellido, email, tipo, password=None): #Pasar los campos definidos como requeridos en el modelo
+    def create_user(self, username, nombre, apellido, email, avatar, tipo, password=None): #Pasar los campos definidos como requeridos en el modelo
         if not username:
             raise ValueError("Debes tener un nombre de usuario")
         if not nombre:
@@ -30,6 +30,7 @@ class Manager_Usuario(BaseUserManager):
             nombre=nombre,
             apellido=apellido,
             email=self.normalize_email(email),
+            avatar=avatar,
             tipo=tipo
         )
 
@@ -53,6 +54,11 @@ class Manager_Usuario(BaseUserManager):
         usuario.save(using=self._db)
         return usuario
 
+def upload_avatar(instance, archivo):
+    path_archivo= 'avatar/{username}/{archivo}'.format(
+        username=str(instance.username), archivo=archivo
+    )
+    return path_archivo
 
 class Usuario(AbstractBaseUser):
 
@@ -65,6 +71,7 @@ class Usuario(AbstractBaseUser):
     nombre = models.CharField(max_length=40)
     apellido = models.CharField(max_length=40)
     email = models.EmailField(max_length=254, verbose_name="email", unique=True)
+    avatar = models.ImageField(upload_to=upload_avatar, null=True, blank=True)
     tipo = models.CharField(max_length=6, choices=TIPO_USUARIO, default="LECTOR")
     # Campos Requeridos para crear un modelo de usuario customizado
     date_joined = models.DateTimeField(verbose_name="Fecha de Registro", auto_now_add=True)
@@ -75,7 +82,7 @@ class Usuario(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     # Hasta aca
     USERNAME_FIELD = "username" #Buscar si se puede poner que sea nombre de usuario o email, que de la opcion de loguear ocn cualquiera de los dos.
-    REQUIRED_FIELDS = ["nombre", "apellido", "email", "tipo"] #No pongo 'username' porque ya es requerido al ser USERNAME_FIELD (dato usado para loggearse)
+    REQUIRED_FIELDS = ["nombre", "apellido", "email", "avatar", "tipo"] #No pongo 'username' porque ya es requerido al ser USERNAME_FIELD (dato usado para loggearse)
     
     objects = Manager_Usuario()
     
@@ -90,21 +97,25 @@ class Usuario(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
+@receiver(post_delete, sender=Usuario)
+def submission_delete(sender, instance, **kargs):
+    instance.avatar.delete(False)
 
 
 
-
-def upload_location(instance, archivo):
+#este upload esta funcional para Publicacion
+def upload_publicacion(instance, archivo):
     path_archivo= 'PlayApp/{id_autor}/{titulo}-{archivo}'.format(
         id_autor=str(instance.autor.id), titulo=str(instance.titulo), archivo=archivo
     )
     return path_archivo
+
 class Publicacion(models.Model):
     titulo = models.CharField(max_length=50, null=False, blank=False)
     autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     subtitulo = models.CharField(max_length=100, null=False, blank=False)
     noticia = RichTextField(max_length=5000)
-    imagen = models.ImageField(upload_to=upload_location, null=False, blank=False)
+    imagen = models.ImageField(upload_to=upload_publicacion, null=False, blank=False)
     fecha_publi= models.DateTimeField(auto_now_add=True, verbose_name="fecha publicación")
     fecha_actualizacion = models.DateTimeField(auto_now=True, verbose_name="fecha actualización")
     slug = models.SlugField(blank=True, unique=True)

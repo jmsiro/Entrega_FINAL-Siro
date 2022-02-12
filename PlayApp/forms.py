@@ -18,13 +18,13 @@ class UsuarioForm(UserCreationForm): # Con el Meta alcanza, se ponen fuera tambi
 
     class Meta:
         model = Usuario
-        fields = ["username", "nombre", "apellido", "email", "password1", "password2"]
+        fields = ["username", "nombre", "apellido", "email", "avatar", "password1", "password2"]
 
 class UsuarioUpdateForm(forms.ModelForm):
     # password = forms.CharField(label='Clave', widget=forms.PasswordInput)
     class Meta:
         model = Usuario
-        fields = ("username", "nombre", "apellido", "email")
+        fields = ("username", "nombre", "apellido", "email", "avatar")
 
     def clean_username(self):
         if self.is_valid():
