@@ -4,14 +4,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from PlayApp.forms import *
 from PlayApp.models import *
-from django.views.generic import ListView 
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.edit import DeleteView, UpdateView
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-
+from functools import wraps
 
 
 # padre
@@ -133,9 +131,8 @@ def publicaciones_form(request):
             instancia.save()
 
             contexto["formulario_p"] = formulario_p
-
+            
             return redirect("Inicio")
-
 
     else:
         formulario_p = PublicacionesForm()
@@ -143,14 +140,13 @@ def publicaciones_form(request):
     return render(request, "PlayApp/T04.1-publicaciones_form.html", contexto)
     
 @login_required
-# podemos usar slug en lugar de pk, probar
-def update_publicacion(request, pk):  
+def update_publicacion(request, pk):
     contexto = {}
     usuario = request.user
     publicacion = get_object_or_404(Publicacion, pk=pk)
 
-    if publicacion.autor != usuario:
-        return HttpResponse('Esta publicación no le pertenece, por lo tanto no puede modificarla!')
+    if publicacion.autor != usuario or usuario.tipo != "AUTOR":
+        return HttpResponse('No posee permiso para modificar esta publicacón!')
 
     if request.POST:
         formulario_p = UpdatePublicacionForm(request.POST , request.FILES, instance=publicacion) #ver si hace falta un "or None" en .post y .files
@@ -195,13 +191,14 @@ def detalle_publicacion(request, pk):
     contexto = {}
 
     publicacion = get_object_or_404(Publicacion, pk=pk)
-    comentarios = publicacion.comentarios.all().order_by('-fecha') [0:3]           
-    contexto["comentarios"] = comentarios
+    
+    comentarios = publicacion.comentarios.all().order_by("-fecha")[0:3]
+    
     contexto['publicacion'] = publicacion
+    contexto['comentarios'] = comentarios
 
+    
     return render(request, 'PlayApp/T04.3-publicaciones_detalle.html', contexto)
-
-
 
 
 # Sobre Nosotros
@@ -209,22 +206,23 @@ def sobre_nosotros(request):
     return render(request, "PlayApp/T05-sobre_nosotros.html")
 
 
-
+# Comentarios
 
 def comentarios_form(request, pk):
     contexto = {}
     usuario = request.user
     publicacion = get_object_or_404(Publicacion, pk=pk)
+    # if usuario.tipo != "AUTOR":
+    #     return render(request, "PlayApp/T02-inicio.html", {"mensaje":f"Su usuario: {usuario.get_username()}, no tiene permisos para publicar."})
 
     if request.method == "POST":
-        formulario_c = ComentariosForm(request.POST) 
+        formulario_c =ComentariosForm(request.POST) 
 
         if formulario_c.is_valid():
             instancia = formulario_c.save(commit=False)
 
             autor = Usuario.objects.filter(username=usuario.username).first()
             
-
             instancia.publicacion = publicacion
             instancia.nombre = autor
             instancia.save()
@@ -238,30 +236,27 @@ def comentarios_form(request, pk):
         contexto["formulario_c"] = formulario_c
     return render(request, "PlayApp/T06.2-comentarios_form.html", contexto)
 
-
 def comentarios_lista(request, pk):
 
     contexto = {}
 
     publicacion = get_object_or_404(Publicacion, pk=pk)
-
+    
     comentarios = publicacion.comentarios.all().order_by("-fecha")
-
+    
     contexto['publicacion'] = publicacion
     contexto['comentarios'] = comentarios
-
+    
     return render(request, 'PlayApp/T06.1-comentarios_lista.html', contexto)
 
-    
 class Delete_Comentario(DeleteView):
     model = Comentario
-    success_url = "/PlayApp/publicaciones/"
-    template_name = "PlayApp/T06.3-comentarios_confirm_delete.html"
+    success_url = "/PlayApp/comentarios_lista/"
+    template_name = "PlayApp/T06.4-comentarios_confirm_delete.html"
 
-    
 class Update_Comentario(UpdateView):
     model = Comentario
-    success_url = "/PlayApp/publicaciones/"
-    template_name = "PlayApp/T06.2-comentarios_form.html"
     form_class = ComentariosForm
+    success_url = "/PlayApp/comentarios_lista/"
+    template_name = "PlayApp/T06.2-comentarios_form.html"
 

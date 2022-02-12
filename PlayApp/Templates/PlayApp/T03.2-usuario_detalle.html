@@ -24,14 +24,19 @@
                 {% endfor %}
             </p>
         {% endfor %}    
-       <input class="btn btn-success btn-lg active" type="submit" value="Guardar Cambios">
-        
-        {% if user.tipo == "LECTOR" %}
-            <br><br><p style="color:gray">Tu usuario es de tipo: {{user.tipo}}, si queres convertirte en AUTOR comunicate a "noti.blog@outlook.com"</p>
-        {% else %}
-            <br><br><p style="color:gray">Por consultas sobre tu Usuario comunicate a "noti.blog@outlook.com"</p> 
-        {% endif %}
+        <input class="btn btn-success btn-lg active" style="height:60px;width:300px" type="submit" value="Guardar Cambios">
+       
     </form>
+
+    <br>
+    <br>
+    <a class="btn btn-lg btn-danger btn-block" style="height:60px;width:300px; text-align: center;" href="{% url 'password_change' %}">Cambiar Contraseña</a>
+
+    {% if user.tipo == "LECTOR" %}
+        <br><br><p style="color:gray">Tu usuario es de tipo: {{user.tipo}}, si queres convertirte en AUTOR comunicate a "noti.blog@outlook.com"</p>
+    {% else %}
+        <br><br><p style="color:gray">Por consultas sobre tu Usuario comunicate a "noti.blog@outlook.com"</p> 
+    {% endif %}
 </body>
 
 

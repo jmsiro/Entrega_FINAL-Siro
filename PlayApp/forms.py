@@ -7,13 +7,14 @@ from PlayApp.models import Comentario
 
 
 
-class UsuarioForm(UserCreationForm):
+class UsuarioForm(UserCreationForm): # Con el Meta alcanza, se ponen fuera tambien los campos que se quiera tengan una caracteristica puntual en el fomulario.
+    username = forms.CharField(max_length=15, help_text="El nombre de usuario debe ser unico")
     # nombre = forms.CharField(max_length=40, label="Nombre")
     # apellido = forms.CharField(max_length=40, label="Apellido")
     email = forms.EmailField(max_length=50, help_text="Agregar una dirección de Email válida")
     # tipo = forms.CharField()
-    # password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
-    # password2 = forms.CharField(label="Repetir contraseña", widget=forms.PasswordInput)
+    password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Repetir contraseña", widget=forms.PasswordInput)
 
     class Meta:
         model = Usuario

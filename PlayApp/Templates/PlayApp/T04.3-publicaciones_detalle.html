@@ -3,44 +3,51 @@
 {% block ContenidoTemplate %}
 <body style="text-align:center">
 
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-5 col-lg-4 col-xl-6"> 
 
+                <h1><i>{{ publicacion.titulo }}</i></h1>
+                <h4><i>{{ publicacion.subtitulo }}</i></h4>
+                <hr/>
+                <p><i><img src="http://127.0.0.1:8000/PlayApp{{ publicacion.imagen.url }}" style="width:100%"></i></p>
+                <!-- Ver si lo de la imagen sirve asi para cuando se sube a un host o hay que modificarlo. -->
+                <p><i>{{ publicacion.noticia|safe }}</i></p>
+                <hr/>
+                <p style="color:dimgrey; font-size: 13px; text-transform: uppercase;"><i>{{ publicacion.autor }} | {{ publicacion.fecha_publi }}</i></p>
+                <hr/>
 
-    <h1><i>{{ publicacion.titulo }}</i></h1>
-    <h4><i>{{ publicacion.subtitulo }}</i></h4>
-    <hr/>
-    <p><i><img src="http://127.0.0.1:8000/PlayApp{{ publicacion.imagen.url }}" style="max-height:350px"></i></p>
-    <!-- Ver si lo de la imagen sirve asi para cuando se sube a un host o hay que modificarlo. -->
-    <p><i>{{ publicacion.noticia|safe }}</i></p>
-    <hr/>
-    <p style="color:dimgrey; font-size: 13px; text-transform: uppercase;"><i>{{ publicacion.autor }} | {{ publicacion.fecha_publi }}</i></p>
-    <hr/>
+                    <h2>Últimos comentarios...</h2>
 
-        <h2>Últimos comentarios...</h2>
+                    {% if not comentarios  %}
+                        Sin comentarios aun... 
+                        <br><br><a class="btn btn-primary btn-lg active" href="{% url 'Crear Comentarios' publicacion.id %}">Hacer un comentario</a>
+                    {% else %}
 
-        {% if not comentarios  %}
-            Sin comentarios aun... 
-            <br><br><a class="btn btn-primary btn-lg active" href="{% url 'Crear Comentarios' publicacion.id %}">Hacer un comentario</a>
-        {% else %}
+                    {% for comentario in comentarios %}
 
-        {% for comentario in comentarios %}
+                    <b style="font-size:small">
+                        {{comentario.nombre}} -
+                        {{comentario.fecha}}
+                    </b>
+                    <p style="font-size: medium">
+                    {{comentario.comentario}}
+                    </p>
+                    <hr>
 
-        <b style="font-size:small">
-            {{comentario.nombre}} -
-            {{comentario.fecha}}
-        </b>
-        <p style="font-size: medium">
-        {{comentario.comentario}}
-        </p>
-        <hr>
-
-        {% endfor %}
-        <br><a class="btn btn-warning btn-lg active" href="{% url 'Lista Comentarios' publicacion.id %}">Ver comentarios</a>
-        <br><br><a class="btn btn-primary btn-lg active" href="{% url 'Crear Comentarios' publicacion.id %}">Hacer un comentario</a>
-        {% endif %}
-        <hr>
-        <a href="{% url 'Update Publicaciones' publicacion.id %}">Editar Noticia</a>
-        <br>
-        <a href="{% url 'Publicaciones' %}">Volver</a>
-
+                    {% endfor %}
+                    <br>
+                    <a class="btn btn-warning btn-lg active" href="{% url 'Lista Comentarios' publicacion.id %}">Ver comentarios</a>
+                    <br>
+                    <br>
+                    <a class="btn btn-primary btn-lg active" href="{% url 'Crear Comentarios' publicacion.id %}">Hacer un comentario</a>
+                    {% endif %}
+                    <hr>
+                    <a href="{% url 'Update Publicaciones' publicacion.id %}">Editar Noticia</a>
+                    <br>
+                    <a href="{% url 'Publicaciones' %}">Volver</a>
+            </div>
+        </div>
+    </div>                 
 </body>
 {% endblock %}

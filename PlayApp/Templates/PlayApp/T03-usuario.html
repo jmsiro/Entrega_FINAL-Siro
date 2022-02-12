@@ -7,14 +7,25 @@
     
     <form method="post">{% csrf_token %}
         
-        {{ formulario.as_p}}
-        
-       
+        {% for campo in formulario %}
+        <p>
+            {{ campo.label_tag }}
+            <br>{{ campo }}
+
+            {% for error in campo.errors %}
+                <p style="color: firebrick;"><br>{{error}}</p>
+            {% endfor %}
+        </p>
+        {% endfor %}
+
         <input class="btn btn-success btn-lg active" type="submit" value="Iniciar sesión">
+        <br>
+        <br>
+        <a href="{% url 'password_reset' %}"><u>¿Olvidaste tu contraseña?</u></a>
     
     </form>
     <br>
-    <p style="color:firebrick">Si no tenes un usuario create uno!</p>
+    <p style="color:firebrick">¡Si no tenes un usuario create uno!</p>
     <button type="button">
         <a href="{% url 'Usuario Form' %}" class="btn btn-primary btn-lg active" role="button">Crear Usuario</a>
     </button>
