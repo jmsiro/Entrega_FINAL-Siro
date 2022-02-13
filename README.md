@@ -8,9 +8,9 @@
 3A. Formulario de creación de Usuario: Ingresar en "Ingrese"/"Crear usuario".
 3B. Formulario para iniciar sesión: Ingresar en "Ingrese"(Ingresar username y contraseña). (Login).
 Nota: Usuarios para prueba:
-    # Username: admin / Contrtaseña: playground (Super Usuario) (Puede publicar y modificar los tipos para otorgar permisos de publicación o denegarlos).
-    # Username: Marty / Contrtaseña: playground (Autor) (Puede publicar).
-    # Username: Wendy / Contrtaseña: playground (Lector) (No puede publicar).
+    - Username: admin / Contrtaseña: playground (Super Usuario) (Puede publicar y modificar los tipos para otorgar permisos de publicación o denegarlos).
+    - Username: Marty / Contrtaseña: playground (Autor) (Puede publicar).
+    - Username: Wendy / Contrtaseña: playground (Lector) (No puede publicar).
 3C. Formulario de modificación de los datos del usuario: Abrir el menú desplegable haciendo click en el username y elegir la opción "Modificar datos".
 Nota: Para optimizar el espacio de guardado de la Base de Datos solo se guarda la imagen del avatar actual, las anteriores se eliminan.
 3D. Dentro del menú desplegable mencionado en el punto anterior puede consultar todas las publicaciones y comentarios realizados por el usuario en la opción "Tu actividad"
