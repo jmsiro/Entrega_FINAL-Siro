@@ -1,9 +1,12 @@
 {% extends "PlayApp/T01-view.html" %}
 {% load static %}
 {% block ContenidoTemplate %}
-<body>      
+<body style="text-align:center">      
     {% if mensaje %}
-        <h1>{{mensaje}}</h1>
+        <h3>{{mensaje}}</h3>
+    {% elif mensaje_error %}
+        <h3>{{mensaje_error}}</h3>
+        <br><br><input class="btn btn-danger" type="button" value="Volver" onclick="history.back()">
     {% else %}
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">

@@ -1,0 +1,31 @@
+{% extends "PlayApp/T01-view.html" %}
+{% load static %}
+{% block ContenidoTemplate %}
+
+<h2 style="color:darkorange">TU ACTIVIDAD</h2><hr><br>
+<h3>Publicaciones</h3>
+<br>
+{% for object in publis %}
+    <ul>  
+        <li>    
+            <h5><a href="{% url 'Detalle Publicaciones' object.id %}">{{object.titulo}}</a></h5>
+            <p style="font-size:18px">{{object.subtitulo}}</p>
+            <p style="font-size:14px">{{object.fecha_actualizacion}}</p><hr>
+        </li>
+    </ul>  
+{% endfor %}
+
+<h3>Comentarios</h3>
+<br>
+{% for object in coments %}
+    <ul>
+        <li>
+            <h5><a href="{% url 'Detalle Publicaciones' object.publicacion_id %}">{{object.publicacion}}</a></h5>
+            <p style="font-size:18px" >{{object.comentario}}</p>
+            <p style="font-size:14px" >{{object.fecha}}</p><hr>
+        </li>
+    </ul>
+{% endfor %}
+
+
+{% endblock %}

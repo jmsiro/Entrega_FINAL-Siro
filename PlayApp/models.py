@@ -10,7 +10,7 @@ from django.dispatch import receiver
 from ckeditor.fields import RichTextField
 
 
-# Create your models here.
+#Usuario
 class Manager_Usuario(BaseUserManager):
     #Para hacer el manager la documentación recomienda sobreescribir estos 2 metodos
     def create_user(self, username, nombre, apellido, email, avatar, tipo, password=None): #Pasar los campos definidos como requeridos en el modelo
@@ -82,12 +82,10 @@ class Usuario(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     # Hasta aca
-    USERNAME_FIELD = "username" #Buscar si se puede poner que sea nombre de usuario o email, que de la opcion de loguear ocn cualquiera de los dos.
-    REQUIRED_FIELDS = ["nombre", "apellido", "email", "avatar", "tipo"] #No pongo 'username' porque ya es requerido al ser USERNAME_FIELD (dato usado para loggearse)
-    
+    USERNAME_FIELD = "username" 
+    REQUIRED_FIELDS = ["nombre", "apellido", "email", "avatar", "tipo"] #No pongo 'username' porque ya es requerido al ser USERNAME_FIELD (dato usado para loggearse).
     objects = Manager_Usuario()
     
-
     def __str__(self):
         return f"{self.username}  ({self.nombre}  {self.apellido} - {self.tipo})"
     
@@ -103,8 +101,7 @@ def submission_delete(sender, instance, **kargs):
     instance.avatar.delete(False)
 
 
-
-#este upload esta funcional para Publicacion
+#Publicacion
 def upload_publicacion(instance, archivo):
     path_archivo= 'PlayApp/{id_autor}/{titulo}-{archivo}'.format(
         id_autor=str(instance.autor.id), titulo=str(instance.titulo), archivo=archivo
@@ -138,7 +135,7 @@ pre_save.connect(pre_save_publicacion_reciver, sender=Publicacion)
 
 
 
-
+# Comentario
 class Comentario(models.Model):
     publicacion = models.ForeignKey(Publicacion, related_name="comentarios", on_delete=models.CASCADE, default="")
     nombre = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

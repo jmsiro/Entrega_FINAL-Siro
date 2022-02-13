@@ -64,7 +64,7 @@ ROOT_URLCONF = 'Playground.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["C:/Users/User/Desktop/Programacion/Django/Playground1/PlayApp/Templates"],
+        'DIRS': [os.path.join(BASE_DIR,'PlayApp/Templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

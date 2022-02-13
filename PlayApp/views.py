@@ -1,5 +1,4 @@
-import email
-import re
+# Importaciones
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from PlayApp.forms import *
@@ -7,9 +6,7 @@ from PlayApp.models import *
 from django.views.generic.edit import DeleteView, UpdateView
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from functools import wraps
 import os
 
 # padre
@@ -39,11 +36,9 @@ def usuario_form(request):
             usuario = authenticate(username = nombre_usuario, password=clave)
             login(request, usuario)
             return render(request,"PlayApp/T02-inicio.html", {"mensaje":f"Hola {usuario.get_username()}, creaste exitosamente tu usuario!"})
-
         else:
             contexto["usuario_formulario"] = formulario
             
-
     else:
         formulario = UsuarioForm()
         contexto ["usuario_formulario"] = formulario
@@ -52,14 +47,11 @@ def usuario_form(request):
 
 
 def login_usuario(request):
-
     if request.method == "POST":
         formulario = AuthenticationForm(request, data=request.POST)
         
         if formulario.is_valid():
             data = formulario.cleaned_data
-            
-
             usuario = authenticate(username=data["username"], password=data["password"])
 
             if usuario is not None:
@@ -81,12 +73,11 @@ def logout_usuario(request):
 @login_required
 def update_usuario(request):
     contexto = {}
-    if request.user.avatar != "":
-        os.remove(request.user.avatar.path)
-    
-    
     
     if request.POST:
+        if request.user.avatar != "":
+            os.remove(request.user.avatar.path)
+
         formulario = UsuarioUpdateForm(request.POST, request.FILES, instance=request.user)  
         
         if formulario.is_valid():
@@ -102,12 +93,21 @@ def update_usuario(request):
                 "apellido": request.user.apellido,
                 "email": request.user.email,
                 "avatar": request.user.avatar,
-                "tipo": request.user.tipo
-                
+                "tipo": request.user.tipo        
             }
         )  
     contexto ["usuario_detalle"] = formulario
     return render(request, "PlayApp/T03.2-usuario_detalle.html", contexto)
+
+
+def actividad_usuario(request):
+    usuario = Usuario.objects.filter(username=request.user.username).first()
+    publis = Publicacion.objects.filter(autor=usuario).order_by('-fecha_publi')
+    coments = Comentario.objects.filter(nombre=usuario).order_by('-fecha')
+
+    contexto = {"publis":publis, "coments":coments}
+
+    return render(request, "PlayApp/T03.3-usuario_actividad.html", contexto)
 
 
 
@@ -123,7 +123,7 @@ def publicaciones(request):
 def publicaciones_form(request):
     contexto = {}
     usuario = request.user
-    if usuario.tipo != "AUTOR":
+    if usuario.tipo == "LECTOR":
         return render(request, "PlayApp/T02-inicio.html", {"mensaje":f"Su usuario: {usuario.get_username()}, no tiene permisos para publicar."})
 
     if request.method == "POST":
@@ -153,7 +153,8 @@ def update_publicacion(request, pk):
     publicacion = get_object_or_404(Publicacion, pk=pk)
 
     if publicacion.autor != usuario or usuario.tipo != "AUTOR":
-        return HttpResponse('No posee permiso para modificar esta publicacón!')
+        contexto['mensaje_error'] = "¡Usted no posee autorización para editar esta publicación!"
+        return render(request, "PlayApp/T02-inicio.html", contexto)
 
     if request.POST:
         formulario_p = UpdatePublicacionForm(request.POST , request.FILES, instance=publicacion) #ver si hace falta un "or None" en .post y .files
@@ -182,15 +183,16 @@ def publicaciones_busc(request):
 
 @login_required
 def busqueda_publicacion(request):
+    contexto={}
     if request.GET["titulo"]:
         titulo = request.GET["titulo"]
         public = Publicacion.objects.filter(titulo__icontains=titulo).order_by("-fecha_publi")
 
         return render(request, "PlayApp/T04.2-publicaciones_busc.html" , {"public":public})
     else:
-        public = "No enviaste datos"
+        contexto['mensaje'] = "¡No enviaste datos!"
 
-    return HttpResponse(public)
+        return render(request, "PlayApp/T04-publicaciones.html", contexto)
 
 @login_required
 def detalle_publicacion(request, pk):
@@ -208,20 +210,23 @@ def detalle_publicacion(request, pk):
     return render(request, 'PlayApp/T04.3-publicaciones_detalle.html', contexto)
 
 
+
+
 # Sobre Nosotros
 def sobre_nosotros(request):
     return render(request, "PlayApp/T05-sobre_nosotros.html")
 
 
-# Comentarios
 
+
+
+
+# Comentarios
 def comentarios_form(request, pk):
     contexto = {}
     usuario = request.user
     publicacion = get_object_or_404(Publicacion, pk=pk)
-    # if usuario.tipo != "AUTOR":
-    #     return render(request, "PlayApp/T02-inicio.html", {"mensaje":f"Su usuario: {usuario.get_username()}, no tiene permisos para publicar."})
-
+    
     if request.method == "POST":
         formulario_c =ComentariosForm(request.POST) 
 
@@ -243,12 +248,10 @@ def comentarios_form(request, pk):
         contexto["formulario_c"] = formulario_c
     return render(request, "PlayApp/T06.2-comentarios_form.html", contexto)
 
+
 def comentarios_lista(request, pk):
-
     contexto = {}
-
     publicacion = get_object_or_404(Publicacion, pk=pk)
-    
     comentarios = publicacion.comentarios.all().order_by("-fecha")
     
     contexto['publicacion'] = publicacion
@@ -256,10 +259,12 @@ def comentarios_lista(request, pk):
     
     return render(request, 'PlayApp/T06.1-comentarios_lista.html', contexto)
 
+
 class Delete_Comentario(DeleteView):
     model = Comentario
     success_url = "/PlayApp/comentarios_lista/"
     template_name = "PlayApp/T06.4-comentarios_confirm_delete.html"
+
 
 class Update_Comentario(UpdateView):
     model = Comentario

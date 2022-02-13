@@ -1,9 +1,9 @@
+# Importaciones
 from django.contrib import admin
 from PlayApp.models import *
 from django.contrib.auth.admin import UserAdmin
 
-# Register your models here.
-# admin.site.register(Usuario)
+
 
 
 class PublicacionAdmin(admin.ModelAdmin):
@@ -17,6 +17,7 @@ class PublicacionAdmin(admin.ModelAdmin):
 
 admin.site.register(Publicacion, PublicacionAdmin)
 
+
 class ComentarioAdmin(admin.ModelAdmin):
     list_display = ("nombre", "publicacion", "comentario","fecha")
     search_fields = ("nombre", "publicacion")
@@ -27,6 +28,7 @@ class ComentarioAdmin(admin.ModelAdmin):
     fieldsets = ()
 
 admin.site.register(Comentario, ComentarioAdmin)
+
 
 class UsuarioAdmin(UserAdmin): #Modelo de administrador de usuarios customizado
     list_display = ("username", "nombre", "apellido", "email","tipo", "date_joined", "last_login", "is_admin", "is_active")

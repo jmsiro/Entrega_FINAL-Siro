@@ -1,20 +1,44 @@
-# Playground1: Pugliese Leandro, Juan Siro, Lucas Maciel.
-1. Todos los Template Heredan de nuestro template padre "T01-view.html"
-2. Las clases en models son: Usuario, Publicacion, Comentario.
-3a. Formulario de Usuario: Ingresar en "Crear Usuario"
-3b. Formulario de Publicacion: Ingresar en "Noticias" / "Hacer Publicacion"
-3c. Formulario de Comentario: Ingresar a "Noticias"/"Buscar"(Escribir título de la noticia)/"Nuevo Comentario"/"Crear".
-3Nota: Las views de "publicacion" con el método anterior a la clase del lunes 17/1, en cambio en las views de comentarios aplicamos lo visto en la clase del lunes 17/1.
-3Nota 2: En "Comentario" se dejo sin efecto el parámetro "publicacion" destinado al id de la publicacion al cual va ir asociado cada comentario para una futura actualización.
-4. Formulario de Busqueda en la DB: Ingresar a "Noticias"/"Buscar"(Escribir título de la noticia).
-5. Probar el blog de la siguiente manera: 
-5a. Ingresar a "Inicio".
-5b. Crear Usuario.
-5c. Hacer una publicación en la sección "Noticias".
-5d. En dicha sección reaizar la busqueda de la publicación creada utilizando el título de la misma como parámetro de busqueda.
-5e. Una vez redirigido a la publicación, realizar un nuevo comentario sobre la misma.
-5f. Una vez redirigido a la sección de comentarios, utilizar libremente las opciones de "ver", "editar" y "borrar".
-5g. Una vez realizados todos los procedimientos, verificar el funcionamiento del admin.
-5Nota: Para ingresar al admin los datos son: Usuario: admin, Password: playground
 
-Nota General: La sección "Ingrese" esta destinada para en un futuro hacer uso de los log in, y en cuanto a la sección "About Us", la misma sera completada para la entrega final.
+# Playground (Proyecto final): Pugliese Leandro, Juan Siro, Lucas Maciel.
+1. Todos los Template Heredan de nuestro template padre "T01-view.html".
+
+2. Las clases en models son: Usuario, Publicación, Comentario.
+
+3. Usuario.
+3A. Formulario de creación de Usuario: Ingresar en "Ingrese"/"Crear usuario".
+3B. Formulario para iniciar sesión: Ingresar en "Ingrese"(Ingresar username y contraseña). (Login).
+Nota: Usuarios para prueba:
+    # Username: admin / Contrtaseña: playground (Super Usuario) (Puede publicar y modificar los tipos para otorgar permisos de publicación o denegarlos).
+    # Username: Marty / Contrtaseña: playground (Autor) (Puede publicar).
+    # Username: Wendy / Contrtaseña: playground (Lector) (No puede publicar).
+3C. Formulario de modificación de los datos del usuario: Abrir el menú desplegable haciendo click en el username y elegir la opción "Modificar datos".
+Nota: Para optimizar el espacio de guardado de la Base de Datos solo se guarda la imagen del avatar actual, las anteriores se eliminan.
+3D. Dentro del menú desplegable mencionado en el punto anterior puede consultar todas las publicaciones y comentarios realizados por el usuario en la opción "Tu actividad"
+3E. Para el cerrar sesión la opción se encuentra en el mismo menú desplegable ya mencionado, haciendo click en "Cerrar sesión". (Logout)
+
+4. Publicación.
+4A. Sin estar logueado no podras visualizar el contenido de las publicaciones, ni crear una publicación.
+4B. Formulario de Publicación: Ingresar en "Noticias"/"Hacer Publicacion".
+Nota: Se incorporó la posibilidad de modificar el texto y agregar imagenes dentro del cuerpo de la publicación con el CKEDITOR.
+4C. Formulario de Busqueda en la DB: Ingresar a "Noticias"/"Buscar"(Escribir título de la noticia).
+Nota: El criterio de busqueda es el título de la publicación (se puede utilizar solo parte del título para la busqueda).
+4D. Modificación de la públicacion solo esta permitido para el usuario AUTOR de la misma.
+4E. Formulario de edición de la publicación: Ingresar a la publicación que quiera editar y hacer click en "editar noticia".
+
+5. Comentario.
+5A. Formulario de Comentario: Ingresar en la publicación en la cual quiera hacer un comentario y hacer click en "Hacer un comentario".
+5B. En cada publicación se visualizan los últimos 3 comentarios, en caso de querer ver la totalidad de comentarios hacerca de la publicación hacer click en "Ver comentarios".
+5C. La modificación o eliminación del comentario solo esta permitido para el usuario que haya creado dicho comentario. 
+
+6. Sobre Nosotros.
+6A. Para ingresar en la sección "sobre nosotros" hacer click en el botón "Sobre nosotros" en la barra de inicio.
+6B. En "Sobre nosotros" se cuenta hacerca de quienes somos los desarrolladores del proyecto y contar un poco sobre que trata el Blog.
+
+7. Probar el blog.
+7A. En el siguiente link encontrará un video demostrativo de las funcionalidades del Blog. ("link")
+
+8. Grupo.
+8A. El proyecto fue desarrollado integramente en equipo. Al no tener mucha experiencia nos pareció conveniente realizar todo en conjunto.
+8B. Utilizamos esta metodología de trabajo para todos poder aprender a hacer la totalidad de la aplicación.
+
+

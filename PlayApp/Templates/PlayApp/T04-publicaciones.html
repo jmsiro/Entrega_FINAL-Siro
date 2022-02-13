@@ -2,6 +2,7 @@
 {% load static %}
 {% block ContenidoTemplate %}
 
+
 <h2 style="color:darkorange">ÚLTIMOS TITULARES</h2><hr>
 {% for object in publis %}
     <ul>
@@ -16,7 +17,9 @@
     <input type="submit" value="Buscar" span="glyphicon glyphicon-search">   
 </form>
 
-
+{% if mensaje %}
+    <h3 style="color: red;">{{mensaje}}</h3>
+{% endif %}
 
 {% endblock %}
 

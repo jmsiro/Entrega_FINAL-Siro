@@ -7,13 +7,10 @@ from PlayApp.models import Comentario
 
 
 
-
+# Usuario
 class UsuarioForm(UserCreationForm): # Con el Meta alcanza, se ponen fuera tambien los campos que se quiera tengan una caracteristica puntual en el fomulario.
     username = forms.CharField(max_length=15, help_text="El nombre de usuario debe ser unico")
-    # nombre = forms.CharField(max_length=40, label="Nombre")
-    # apellido = forms.CharField(max_length=40, label="Apellido")
     email = forms.EmailField(max_length=50, help_text="Agregar una dirección de Email válida")
-    # tipo = forms.CharField()
     password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
     password2 = forms.CharField(label="Repetir contraseña", widget=forms.PasswordInput)
 
@@ -22,7 +19,6 @@ class UsuarioForm(UserCreationForm): # Con el Meta alcanza, se ponen fuera tambi
         fields = ["username", "nombre", "apellido", "email", "avatar", "password1", "password2"]
 
 class UsuarioUpdateForm(forms.ModelForm):
-    # password = forms.CharField(label='Clave', widget=forms.PasswordInput)
     class Meta:
         model = Usuario
         fields = ("username", "nombre", "apellido", "email", "avatar")
@@ -37,11 +33,10 @@ class UsuarioUpdateForm(forms.ModelForm):
             raise forms.ValidationError('El nombre de Usuario "%s" ya esta en uso.' % usuario)
     
 
-
+# Publicacion
 class PublicacionesForm(forms.ModelForm):
     fecha = forms.DateField(initial=datetime.now(), show_hidden_initial=True)
-    
-    
+     
     class Meta:
         model = Publicacion
         fields = ("titulo","subtitulo", "noticia", "imagen")
@@ -55,16 +50,13 @@ class PublicacionesForm(forms.ModelForm):
             'noticia': forms.Textarea(attrs={
                 'class': 'form-control',
                 'placeholder':'Noticia...'}),
-
         }
 
 class UpdatePublicacionForm(forms.ModelForm):
-
     class Meta:
         model = Publicacion
         fields = ("titulo","subtitulo", "noticia", "imagen")
         
-
     def guardar(self, commit=True):
         publicacion = self.instance
         publicacion.titulo = self.cleaned_data['titulo']
@@ -77,8 +69,7 @@ class UpdatePublicacionForm(forms.ModelForm):
             publicacion.save()
         return publicacion
 
-
-
+# Comentario
 class ComentariosForm(forms.ModelForm):
     class Meta:
         model = Comentario
