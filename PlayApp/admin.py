@@ -5,6 +5,7 @@ from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 # admin.site.register(Usuario)
 
+
 class PublicacionAdmin(admin.ModelAdmin):
     list_display = ("autor", "titulo", "subtitulo","imagen", "fecha_publi", "fecha_actualizacion")
     search_fields = ("autor", "titulo", "fecha_publi")

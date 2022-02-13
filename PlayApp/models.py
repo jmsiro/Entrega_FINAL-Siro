@@ -54,6 +54,7 @@ class Manager_Usuario(BaseUserManager):
         usuario.save(using=self._db)
         return usuario
 
+
 def upload_avatar(instance, archivo):
     path_archivo= 'avatar/{username}/{archivo}'.format(
         username=str(instance.username), archivo=archivo

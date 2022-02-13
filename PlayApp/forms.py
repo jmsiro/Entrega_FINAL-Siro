@@ -7,6 +7,7 @@ from PlayApp.models import Comentario
 
 
 
+
 class UsuarioForm(UserCreationForm): # Con el Meta alcanza, se ponen fuera tambien los campos que se quiera tengan una caracteristica puntual en el fomulario.
     username = forms.CharField(max_length=15, help_text="El nombre de usuario debe ser unico")
     # nombre = forms.CharField(max_length=40, label="Nombre")

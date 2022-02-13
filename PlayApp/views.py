@@ -85,6 +85,7 @@ def update_usuario(request):
         os.remove(request.user.avatar.path)
     
     
+    
     if request.POST:
         formulario = UsuarioUpdateForm(request.POST, request.FILES, instance=request.user)  
         
