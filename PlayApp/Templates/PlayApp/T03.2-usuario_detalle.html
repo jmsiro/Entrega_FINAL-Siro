@@ -22,12 +22,15 @@
                 {% for error in campo.errors %}
                     <p style="color: firebrick;"><br>{{error}}</p>
                 {% endfor %}
+
             </p>
         {% endfor %}    
         <input class="btn btn-success btn-lg active" style="height:60px;width:300px" type="submit" value="Guardar Cambios">
        
     </form>
 
+    <br>
+    <a class="btn btn-primary btn-lg active" href="{% url 'Avatar Update' %}">Modificar Avatar</a>
     <br>
     <br>
     <a class="btn btn-lg btn-danger btn-block" style="height:60px;width:300px; text-align: center;" href="{% url 'password_change' %}">Cambiar Contraseña</a>

@@ -1,0 +1,32 @@
+{% extends "PlayApp/T01-view.html" %}
+{% load static %}
+{% block ContenidoTemplate %}
+
+<body style="text-align:center">
+    
+    
+    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %} 
+       
+        {% for campo in usuario_avatar %}
+            <p>
+                {{campo.label_tag}}
+                <br>{{campo}}
+
+                {% for error in campo.errors %}
+                    <p style="color: firebrick;"><br>{{error}}</p>
+                {% endfor %}
+
+            </p>
+        {% endfor %}    
+        <input class="btn btn-success btn-lg active" style="height:60px;width:300px" type="submit" value="Modificar Avatar">
+        <br>
+        <br>
+        <input class="btn btn-danger" type="button" value="Volver" onclick="history.back()">
+       
+    </form>
+
+</body>
+
+
+
+{% endblock %}

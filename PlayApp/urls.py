@@ -18,7 +18,8 @@ urlpatterns = [
     path("logout/", views.logout_usuario, name = "Usuario Logout"),
     path("usuario_update/", views.update_usuario, name = "Usuario Update" ),
     path("usuario_actividad/", views.actividad_usuario, name = "Usuario Actividad" ),
-   
+    path("avatar_update/", views.update_avatar, name = "Avatar Update" ),
+
     # Reseteo contraseña - (ref: https://github.com/django/django/blob/master/django/contrib/auth/views.py)
     path('password_cambiar/ok/', auth_views.PasswordChangeDoneView.as_view(template_name='Password/password_cambiar_ok.html'), name='password_change_done'),
     path('password_cambiar/', auth_views.PasswordChangeView.as_view(template_name='Password/password_cambiar.html'), name='password_change'),

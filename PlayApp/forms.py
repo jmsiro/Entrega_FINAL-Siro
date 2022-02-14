@@ -21,7 +21,7 @@ class UsuarioForm(UserCreationForm): # Con el Meta alcanza, se ponen fuera tambi
 class UsuarioUpdateForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        fields = ("username", "nombre", "apellido", "email", "avatar")
+        fields = ("username", "nombre", "apellido", "email")
 
     def clean_username(self):
         if self.is_valid():
@@ -31,7 +31,22 @@ class UsuarioUpdateForm(forms.ModelForm):
             except Usuario.DoesNotExist:
                 return username
             raise forms.ValidationError('El nombre de Usuario "%s" ya esta en uso.' % usuario)
+
+class AvatarUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ("avatar",)
     
+    def guardar(self, commit=True):
+        usuario_avatar = self.instance
+        
+        if self.cleaned_data['avatar']:
+            usuario_avatar.avatar = self.cleaned_data['avatar']
+        if commit:
+            usuario_avatar.save()
+        return usuario_avatar
+
+        
 
 # Publicacion
 class PublicacionesForm(forms.ModelForm):

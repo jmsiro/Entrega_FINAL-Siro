@@ -74,9 +74,7 @@ def update_usuario(request):
     contexto = {}
     
     if request.POST:
-        # if  request.user.avatar:
-        #     os.remove(request.user.avatar.path)
-
+        
         formulario = UsuarioUpdateForm(request.POST, request.FILES, instance=request.user)  
         
         if formulario.is_valid():
@@ -91,12 +89,37 @@ def update_usuario(request):
                 "nombre": request.user.nombre,
                 "apellido": request.user.apellido,
                 "email": request.user.email,
-                "avatar": request.user.avatar,
                 "tipo": request.user.tipo        
             }
         )  
     contexto ["usuario_detalle"] = formulario
     return render(request, "PlayApp/T03.2-usuario_detalle.html", contexto)
+
+
+@login_required
+def update_avatar(request):
+    contexto = {}
+
+    if request.POST:
+        if  request.user.avatar:
+            os.remove(request.user.avatar.path)
+
+        formulario_avatar = AvatarUpdateForm(request.POST, request.FILES, instance=request.user)
+
+        if formulario_avatar.is_valid():
+            formulario_avatar.save()
+            usuario = request.user
+            return render(request, "PlayApp/T02-inicio.html", {"mensaje":f"¡Felicitaciones {usuario.get_username()}, Modificaste exitosamente tu avatar!"})
+    else:
+        formulario_avatar = AvatarUpdateForm(
+            initial= {
+                "avatar": request.user.avatar,       
+            }
+        )  
+    contexto ["usuario_avatar"] = formulario_avatar
+    return render(request, "PlayApp/T03.4-usuario_avatar.html", contexto)
+    
+
 
 
 def actividad_usuario(request):
