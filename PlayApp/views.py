@@ -1,6 +1,5 @@
 # Importaciones
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
 from PlayApp.forms import *
 from PlayApp.models import *
 from django.views.generic.edit import DeleteView, UpdateView
@@ -75,8 +74,8 @@ def update_usuario(request):
     contexto = {}
     
     if request.POST:
-        if request.user.avatar != "":
-            os.remove(request.user.avatar.path)
+        # if  request.user.avatar:
+        #     os.remove(request.user.avatar.path)
 
         formulario = UsuarioUpdateForm(request.POST, request.FILES, instance=request.user)  
         
@@ -262,13 +261,13 @@ def comentarios_lista(request, pk):
 
 class Delete_Comentario(DeleteView):
     model = Comentario
-    success_url = "/PlayApp/comentarios_lista/"
-    template_name = "PlayApp/T06.4-comentarios_confirm_delete.html"
+    success_url = "/PlayApp/publicaciones/"
+    template_name = "PlayApp/T06.3-comentarios_confirm_delete.html"
 
 
 class Update_Comentario(UpdateView):
     model = Comentario
     form_class = ComentariosForm
-    success_url = "/PlayApp/comentarios_lista/"
+    success_url = "/PlayApp/publicaciones/"
     template_name = "PlayApp/T06.2-comentarios_form.html"
 

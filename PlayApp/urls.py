@@ -27,13 +27,13 @@ urlpatterns = [
     path('password_reseteo/', auth_views.PasswordResetView.as_view(), name='password_reset'),
     path('reseteo/ok/', auth_views.PasswordResetCompleteView.as_view(template_name='Password/password_reseteo_ok.html'),name='password_reset_complete'),
     
-    #Publicaciones
+    # Comentario
     path("publicaciones_detalle/<int:pk>/comentarios_form/", views.comentarios_form, name = "Crear Comentarios" ),
     path("publicaciones_detalle/<int:pk>/comentarios_lista/", views.comentarios_lista, name = "Lista Comentarios" ),
     path("comentarios_delete/<pk>/", views.Delete_Comentario.as_view(), name = "Delete Comentarios" ),
     path("comentarios_update/<pk>/", views.Update_Comentario.as_view(), name = "Update Comentarios" ),
 
-    #About Us
+    # About Us
     path("about/", views.sobre_nosotros, name = "Sobre Nosotros"),
 
     # Publicacion
