@@ -61,6 +61,8 @@ def upload_avatar(instance, archivo):
     )
     return path_archivo
 
+
+
 class Usuario(AbstractBaseUser):
 
     TIPO_USUARIO = [

@@ -1,5 +1,5 @@
 
-# Playground (Proyecto final): Pugliese Leandro, Juan Siro, Lucas Maciel.
+# Playground (Proyecto final): Leandro Pugliese, Juan Siro, Lucas Maciel.
 1. Todos los Template Heredan de nuestro template padre "T01-view.html".
 
 2. Las clases en models son: Usuario, Publicación, Comentario.
@@ -9,8 +9,8 @@
 3B. Formulario para iniciar sesión: Ingresar en "Ingrese"(Ingresar username y contraseña). (Login).
 Nota: Usuarios para prueba:
     - Username: admin / Contrtaseña: playground (Super Usuario) (Puede publicar y modificar los tipos para otorgar permisos de publicación o denegarlos).
-    - Username: Marty / Contrtaseña: playground (Autor) (Puede publicar).
-    - Username: Wendy / Contrtaseña: playground (Lector) (No puede publicar).
+    - Username: marty / Contrtaseña: playground (Autor) (Puede publicar).
+    - Username: wendy / Contrtaseña: playground (Lector) (No puede publicar).
 3C. Formulario de modificación de los datos del usuario: Abrir el menú desplegable haciendo click en el username y elegir la opción "Modificar datos".
 Nota: Para optimizar el espacio de guardado de la Base de Datos solo se guarda la imagen del avatar actual, las anteriores se eliminan.
 3D. Dentro del menú desplegable mencionado en el punto anterior puede consultar todas las publicaciones y comentarios realizados por el usuario en la opción "Tu actividad"
@@ -35,7 +35,7 @@ Nota: El criterio de busqueda es el título de la publicación (se puede utiliza
 6B. En "Sobre nosotros" se cuenta hacerca de quienes somos los desarrolladores del proyecto y contar un poco sobre que trata el Blog.
 
 7. Probar el blog.
-7A. En el siguiente link encontrará un video demostrativo de las funcionalidades del Blog. ("link")
+7A. En el siguiente link encontrará un video demostrativo de las funcionalidades del Blog. (link: https://www.youtube.com/watch?v=E7l6LwknrR4 )
 
 8. Grupo.
 8A. El proyecto fue desarrollado integramente en equipo. Al no tener mucha experiencia nos pareció conveniente realizar todo en conjunto.
