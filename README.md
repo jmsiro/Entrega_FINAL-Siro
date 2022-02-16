@@ -35,7 +35,7 @@ Nota: El criterio de busqueda es el título de la publicación (se puede utiliza
 6B. En "Sobre nosotros" se cuenta hacerca de quienes somos los desarrolladores del proyecto y contar un poco sobre que trata el Blog.
 
 7. Probar el blog.
-7A. En el siguiente link encontrará un video demostrativo de las funcionalidades del Blog. (link: https://www.youtube.com/watch?v=E7l6LwknrR4 )
+7A. En el siguiente link encontrará un video demostrativo de las funcionalidades del Blog. (link: https://youtu.be/v_2nhDJ190o )
 
 8. Grupo.
 8A. El proyecto fue desarrollado integramente en equipo. Al no tener mucha experiencia nos pareció conveniente realizar todo en conjunto.

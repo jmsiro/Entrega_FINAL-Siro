@@ -149,7 +149,7 @@ def publicaciones_form(request):
         return render(request, "PlayApp/T02-inicio.html", {"mensaje":f"Su usuario: {usuario.get_username()}, no tiene permisos para publicar."})
 
     if request.method == "POST":
-        formulario_p = PublicacionesForm(request.POST, request.FILES) 
+        formulario_p = PublicacionesForm(request.POST, request.FILES)
 
         if formulario_p.is_valid():
             instancia = formulario_p.save(commit=False)
@@ -174,7 +174,7 @@ def update_publicacion(request, pk):
     usuario = request.user
     publicacion = get_object_or_404(Publicacion, pk=pk)
 
-    if publicacion.autor != usuario or usuario.tipo != "AUTOR":
+    if publicacion.autor != usuario or usuario.tipo == "LECTOR":
         contexto['mensaje_error'] = "¡Usted no posee autorización para editar esta publicación!"
         return render(request, "PlayApp/T02-inicio.html", contexto)
 
